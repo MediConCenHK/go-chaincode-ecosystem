@@ -21,6 +21,14 @@
   version = "v0.3.0"
 
 [[projects]]
+  branch = "master"
+  digest = "1:6121b4c7e4950af849db13b6b05ed8ff23d257abfcafba11c9927675aa450212"
+  name = "github.com/MediConCenHK/go-chaincode-common"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "6eccffbea1819392d77f5c7d1b38d66dd2a55d03"
+
+[[projects]]
   digest = "1:f9ae348e1f793dcf9ed930ed47136a67343dbd6809c5c91391322267f4476892"
   name = "github.com/Microsoft/go-winio"
   packages = ["."]
@@ -477,7 +485,9 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
+    "github.com/MediConCenHK/go-chaincode-common",
     "github.com/davidkhala/fabric-common-chaincode-golang",
+    "github.com/davidkhala/goutils",
     "github.com/hyperledger/fabric/core/chaincode/shim",
     "github.com/hyperledger/fabric/protos/peer",
   ]
