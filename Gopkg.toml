@@ -1,0 +1,14 @@
+
+[[constraint]]
+    name = "github.com/hyperledger/fabric"
+    branch = "master"
+[[constraint]]
+    name = "github.com/MediConCenHK/go-chaincode-common"
+    branch = "master"
+
+[[constraint]]
+    name = "github.com/davidkhala/goutils"
+    branch = "master"
+[prune]
+  go-tests = true
+  unused-packages = true
