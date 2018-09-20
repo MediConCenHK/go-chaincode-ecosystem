@@ -22,11 +22,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:6121b4c7e4950af849db13b6b05ed8ff23d257abfcafba11c9927675aa450212"
+  digest = "1:79461b2dcfdacab20d75a6e25ccbb4ef16437c9cf35bb1043c77e45bf525ae1e"
   name = "github.com/MediConCenHK/go-chaincode-common"
   packages = ["."]
   pruneopts = "UT"
-  revision = "6eccffbea1819392d77f5c7d1b38d66dd2a55d03"
+  revision = "6a358f6b53568c5a671127d0d744c5a83207c294"
 
 [[projects]]
   digest = "1:f9ae348e1f793dcf9ed930ed47136a67343dbd6809c5c91391322267f4476892"
@@ -54,11 +54,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:24363c54d711bb3105af4ac2625df3fb84becb2f2fab46864761761e41f45651"
+  digest = "1:a25283cb96a01f7877a43fc600d8b487959c36f494218e9b9c5c16f4932f68ae"
   name = "github.com/davidkhala/fabric-common-chaincode-golang"
   packages = ["."]
   pruneopts = "UT"
-  revision = "030011efef5f743b55d40d347282248b60ec675f"
+  revision = "0e6085cc9777d40d331edea4cb1c44dff18099e1"
 
 [[projects]]
   branch = "master"
@@ -192,7 +192,7 @@
     "protos/utils",
   ]
   pruneopts = "UT"
-  revision = "fc8cb22e4ab3dec3fcefbcd4391e1ef6c9191fb5"
+  revision = "363d4a9f8c67dce7bec7ff9042c3a0618b993752"
 
 [[projects]]
   branch = "master"

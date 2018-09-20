@@ -23,22 +23,21 @@ func (t GlobalChaincode) Init(stub shim.ChaincodeStubInterface) (response peer.R
 func ClientAuth(cid ClientIdentity) bool {
 	return true
 }
-func (t GlobalChaincode) Put(cid ClientIdentity, params []string) {
-	var txType = params[0]
-
+func (t GlobalChaincode) Put(cid ClientIdentity, txType string, params []string) {
 	switch txType {
 	case "token":
-		var tokenID = params[1]
+		var tokenID = params[0]
 		var tokenData TokenData
-		FromJson([]byte(params[2]), &tokenData)
+		FromJson([]byte(params[1]), &tokenData)
 		t.PutStateObj(tokenID, tokenData)
+	default:
+		PanicString("unknown txType:" + txType)
 	}
 }
-func (t GlobalChaincode) Get(cid ClientIdentity, params []string) []byte {
-	var txType = params[0]
+func (t GlobalChaincode) Get(cid ClientIdentity, txType string, params []string) []byte {
 	switch txType {
 	case "token":
-		var tokenID = params[1]
+		var tokenID = params[0]
 		var tokenData TokenData
 		var exist = t.GetStateObj(tokenID, &tokenData)
 		if ! exist {
@@ -52,17 +51,18 @@ func (t GlobalChaincode) Get(cid ClientIdentity, params []string) []byte {
 func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer.Response) {
 	DeferPeerResponse(&response)
 	t.Prepare(stub)
-	t.Logger.Info("########### " + t.Name + " Invoke ###########")
 
 	var fcn, params = stub.GetFunctionAndParameters()
+	var txType = params[0]
+	t.Logger.Info("Invoke:fcn:" + fcn + " txType:" + txType)
+	params = params[1:]
 	var clientID = NewClientIdentity(stub)
-
 
 	switch strings.ToLower(fcn) {
 	case "put":
-		t.Put(clientID, params)
+		t.Put(clientID, txType, params)
 	case "get":
-		var databytes = t.Get(clientID, params)
+		var databytes = t.Get(clientID, txType, params)
 		return shim.Success(databytes)
 	default:
 		PanicString("unknown fcn:" + fcn)
