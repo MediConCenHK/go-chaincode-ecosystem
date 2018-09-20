@@ -50,7 +50,7 @@
   name = "github.com/containerd/continuity"
   packages = ["pathdriver"]
   pruneopts = "UT"
-  revision = "f04dbc0d6e83984cca2c4c8b0d9b833d3809f260"
+  revision = "508d86ade3c25875053b68f5061c20020b3f2894"
 
 [[projects]]
   branch = "master"
@@ -69,8 +69,7 @@
   revision = "7fe30d1d79179fae46bc45bb9d6f232d3642558b"
 
 [[projects]]
-  branch = "master"
-  digest = "1:7fc923d0094c2f1032233b1a4f1175fa1221f7e452269c77e43c01becb183cc9"
+  digest = "1:49a2a779b1af8f02547b5a505eb1382f9d42299ec7215f34a32535e6af9a1c9e"
   name = "github.com/docker/docker"
   packages = [
     "api/types",
@@ -84,20 +83,23 @@
     "api/types/swarm",
     "api/types/swarm/runtime",
     "api/types/versions",
-    "errdefs",
     "opts",
+    "pkg/archive",
     "pkg/fileutils",
     "pkg/homedir",
     "pkg/idtools",
     "pkg/ioutils",
+    "pkg/jsonmessage",
     "pkg/longpath",
     "pkg/mount",
     "pkg/pools",
     "pkg/stdcopy",
     "pkg/system",
+    "pkg/term",
+    "pkg/term/windows",
   ]
   pruneopts = "UT"
-  revision = "d6a7c22f7b9aa028623ef8c7cb31d1bb04dd9d84"
+  revision = "a422774e593b33bd287d9890544ad9e09b380d8c"
 
 [[projects]]
   digest = "1:ade935c55cd6d0367c843b109b09c9d748b1982952031414740750fdf94747eb"
@@ -116,25 +118,12 @@
   version = "v0.3.3"
 
 [[projects]]
-  digest = "1:4f57c53dc1244bd265be71bc4e75fc48132f1cf2927b19de52ed600b7d73cd8e"
-  name = "github.com/docker/libnetwork"
-  packages = ["ipamutils"]
-  pruneopts = "UT"
-  revision = "6d23f11e681f24ee31802939e243fe8be41a75eb"
-  version = "v0.8.0-dev.2"
-
-[[projects]]
-  digest = "1:730879a0d2bfbe16e6d36c4e57e308e46babe0453f013be71d98f09fda5d1cf5"
+  digest = "1:ed17414a259d9c62eb01cf8c2b0231e6310948337197ebd01161121a36be3759"
   name = "github.com/fsouza/go-dockerclient"
-  packages = [
-    ".",
-    "internal/archive",
-    "internal/jsonmessage",
-    "internal/term",
-  ]
+  packages = ["."]
   pruneopts = "UT"
-  revision = "1b33efcb40bef3494af8bc6a1f73600f37a3c9d1"
-  version = "v1.3.0"
+  revision = "51bd33c0c7792b2566054672a4915b406d988cc6"
+  version = "v1.2.1"
 
 [[projects]]
   digest = "1:bbadccf3d3317ea03c0dac0b45b673b4b397c8f91a1d2eff550a3c51c4ad770e"
@@ -169,7 +158,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:f4adb1d6c81acaad4f75b6cdd9a6768ba99987725c02a72098ea35ca0d87637c"
+  digest = "1:cc06db301b2096da1f494e24f984302166e376be42d61045c65bfbbacec1ba7e"
   name = "github.com/hyperledger/fabric"
   packages = [
     "bccsp",
@@ -203,7 +192,7 @@
     "protos/utils",
   ]
   pruneopts = "UT"
-  revision = "e6bdd232138c7e22ccb373587956ee6f5c18725a"
+  revision = "fc8cb22e4ab3dec3fcefbcd4391e1ef6c9191fb5"
 
 [[projects]]
   branch = "master"
@@ -284,9 +273,12 @@
   version = "v1.0.1"
 
 [[projects]]
-  digest = "1:38ee335aedf4626620f3cf8f605661e71abdcce7b40b38921962beb3980f0a20"
+  digest = "1:1869683e323ebff2bdf8adcb560f82bf6f8d94019d35099e3403f7df12e9c07e"
   name = "github.com/opencontainers/runc"
-  packages = ["libcontainer/user"]
+  packages = [
+    "libcontainer/system",
+    "libcontainer/user",
+  ]
   pruneopts = "UT"
   revision = "baf6536d6259209c3edfa2b22237af82942d3dfa"
   version = "v0.1.1"
@@ -399,14 +391,14 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:e10551220bea6da5274318545537df1012268056be6484b83a3338328050cde0"
+  digest = "1:49edbccdd6fb213dcf45486b0c939b788740451e5f2ff77aa42ca742d10da449"
   name = "golang.org/x/sys"
   packages = [
     "unix",
     "windows",
   ]
   pruneopts = "UT"
-  revision = "ee1b12c67af419cf5a9be3bdbeea7fc1c5f32f11"
+  revision = "1561086e645b2809fb9f8a1e2a38160bf8d53bf4"
 
 [[projects]]
   digest = "1:a2ab62866c75542dd18d2b069fec854577a20211d7c0ea6ae746072a1dccdd18"

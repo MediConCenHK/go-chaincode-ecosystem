@@ -13,7 +13,7 @@ type GlobalChaincode struct {
 	CommonChaincode
 }
 
-func (t *GlobalChaincode) Init(stub shim.ChaincodeStubInterface) (response peer.Response) {
+func (t GlobalChaincode) Init(stub shim.ChaincodeStubInterface) (response peer.Response) {
 	DeferPeerResponse(&response)
 	t.Prepare(stub)
 	t.Logger.Info("########### " + t.Name + " Init ###########")
@@ -49,7 +49,7 @@ func (t GlobalChaincode) Get(cid ClientIdentity, params []string) []byte {
 	}
 	return nil
 }
-func (t *GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer.Response) {
+func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer.Response) {
 	DeferPeerResponse(&response)
 	t.Prepare(stub)
 	t.Logger.Info("########### " + t.Name + " Invoke ###########")
