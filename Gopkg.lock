@@ -22,11 +22,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:79461b2dcfdacab20d75a6e25ccbb4ef16437c9cf35bb1043c77e45bf525ae1e"
+  digest = "1:1dadf81395d29a45bda266dbe459ccf134b25f6f0edc2157868134286f40f3e5"
   name = "github.com/MediConCenHK/go-chaincode-common"
   packages = ["."]
   pruneopts = "UT"
-  revision = "6a358f6b53568c5a671127d0d744c5a83207c294"
+  revision = "64f8e21ead551939fc46fe07db199884fc99b6f1"
 
 [[projects]]
   digest = "1:f9ae348e1f793dcf9ed930ed47136a67343dbd6809c5c91391322267f4476892"
@@ -54,11 +54,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:a25283cb96a01f7877a43fc600d8b487959c36f494218e9b9c5c16f4932f68ae"
+  digest = "1:0cfbdb9e34b1bf5dd17ad530896f3fd72656ae503dc2a3a9db6781bf6d4a2a4c"
   name = "github.com/davidkhala/fabric-common-chaincode-golang"
   packages = ["."]
   pruneopts = "UT"
-  revision = "0e6085cc9777d40d331edea4cb1c44dff18099e1"
+  revision = "28848e98ebd46fb75a9e3e4a8ee2d8cf06d42eea"
 
 [[projects]]
   branch = "master"
@@ -158,7 +158,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:cc06db301b2096da1f494e24f984302166e376be42d61045c65bfbbacec1ba7e"
+  digest = "1:15df79c26ba4aa72d6e4d9ac8a564ba49bd1c37cdaf9608ed3b1e89da490bd49"
   name = "github.com/hyperledger/fabric"
   packages = [
     "bccsp",
@@ -174,7 +174,6 @@
     "common/ledger",
     "common/metadata",
     "common/util",
-    "core/chaincode/lib/cid",
     "core/chaincode/platforms",
     "core/chaincode/platforms/ccmetadata",
     "core/chaincode/shim",
@@ -192,7 +191,7 @@
     "protos/utils",
   ]
   pruneopts = "UT"
-  revision = "363d4a9f8c67dce7bec7ff9042c3a0618b993752"
+  revision = "f8ce69508a6241e299e7957fa4f971b5262213c5"
 
 [[projects]]
   branch = "master"
@@ -387,18 +386,18 @@
     "trace",
   ]
   pruneopts = "UT"
-  revision = "26e67e76b6c3f6ce91f7c52def5af501b4e0f3a2"
+  revision = "2f5d2388922f370f4355f327fcf4cfe9f5583908"
 
 [[projects]]
   branch = "master"
-  digest = "1:49edbccdd6fb213dcf45486b0c939b788740451e5f2ff77aa42ca742d10da449"
+  digest = "1:3bb4674103eef9bf860b88e59048c67ad646de4274ea7de8d71d16e9f8209bff"
   name = "golang.org/x/sys"
   packages = [
     "unix",
     "windows",
   ]
   pruneopts = "UT"
-  revision = "1561086e645b2809fb9f8a1e2a38160bf8d53bf4"
+  revision = "d641721ec2dead6fe5ca284096fe4b1fcd49e427"
 
 [[projects]]
   digest = "1:a2ab62866c75542dd18d2b069fec854577a20211d7c0ea6ae746072a1dccdd18"
