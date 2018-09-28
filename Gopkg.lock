@@ -13,20 +13,20 @@
   revision = "d6e3b3328b783f23731bc4d058875b0371ff8109"
 
 [[projects]]
-  digest = "1:b16fbfbcc20645cb419f78325bb2e85ec729b338e996a228124d68931a6f2a37"
+  digest = "1:9f3b30d9f8e0d7040f729b82dcbc8f0dead820a133b3147ce355fc451f32d761"
   name = "github.com/BurntSushi/toml"
   packages = ["."]
   pruneopts = "UT"
-  revision = "b26d9c308763d68093482582cea63d69be07a0f0"
-  version = "v0.3.0"
+  revision = "3012a1dbe2e4bd1391d42b32f0577cb7bbc7f005"
+  version = "v0.3.1"
 
 [[projects]]
   branch = "master"
-  digest = "1:1dadf81395d29a45bda266dbe459ccf134b25f6f0edc2157868134286f40f3e5"
+  digest = "1:0912f005efc77173829ee17629a82e36a51899644bbb1baef6fe2a18b7889da2"
   name = "github.com/MediConCenHK/go-chaincode-common"
   packages = ["."]
   pruneopts = "UT"
-  revision = "64f8e21ead551939fc46fe07db199884fc99b6f1"
+  revision = "d2b302d85e3905f4975b8f19a3bcdd4f1cef29d8"
 
 [[projects]]
   digest = "1:f9ae348e1f793dcf9ed930ed47136a67343dbd6809c5c91391322267f4476892"
@@ -50,15 +50,15 @@
   name = "github.com/containerd/continuity"
   packages = ["pathdriver"]
   pruneopts = "UT"
-  revision = "508d86ade3c25875053b68f5061c20020b3f2894"
+  revision = "7f53d412b9eb1cbf744c2063185d703a0ee34700"
 
 [[projects]]
   branch = "master"
-  digest = "1:0cfbdb9e34b1bf5dd17ad530896f3fd72656ae503dc2a3a9db6781bf6d4a2a4c"
+  digest = "1:667f8a6aca182fd64929dca26d3b6a5a572bfd2d91d6fc59e803bcb78c33f6e4"
   name = "github.com/davidkhala/fabric-common-chaincode-golang"
   packages = ["."]
   pruneopts = "UT"
-  revision = "28848e98ebd46fb75a9e3e4a8ee2d8cf06d42eea"
+  revision = "2b3f741b866d5faca0060e90a025bf3700e0e5b8"
 
 [[projects]]
   branch = "master"
@@ -158,7 +158,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:15df79c26ba4aa72d6e4d9ac8a564ba49bd1c37cdaf9608ed3b1e89da490bd49"
+  digest = "1:ee917be83b1033111fe6ed162d768228919e0f39dcb26fd7de3b7f618a27189c"
   name = "github.com/hyperledger/fabric"
   packages = [
     "bccsp",
@@ -191,7 +191,7 @@
     "protos/utils",
   ]
   pruneopts = "UT"
-  revision = "f8ce69508a6241e299e7957fa4f971b5262213c5"
+  revision = "846dcd6213db8d5da55ee6453538e7f8c63056f8"
 
 [[projects]]
   branch = "master"
@@ -203,6 +203,14 @@
   ]
   pruneopts = "UT"
   revision = "6b78f7a22d950103fb2669aabb969f56d42d283b"
+
+[[projects]]
+  branch = "master"
+  digest = "1:f44d34fda864bed6d6c71514cd40b2ee097e6e67f745d5d014113e1faa5af8b7"
+  name = "github.com/konsorten/go-windows-terminal-sequences"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "b729f2633dfe35f4d1d8a32385f6685610ce1cb5"
 
 [[projects]]
   digest = "1:ca955a9cd5b50b0f43d2cc3aeb35c951473eeca41b34eb67507f1dbcc0542394"
@@ -291,12 +299,12 @@
   version = "v0.8.0"
 
 [[projects]]
-  digest = "1:d867dfa6751c8d7a435821ad3b736310c2ed68945d05b50fb9d23aee0540c8cc"
+  digest = "1:dc2d85c13ac22c22a1f3170a41a8e1b897fa05134aaf533f16df44f66a25b4a1"
   name = "github.com/sirupsen/logrus"
   packages = ["."]
   pruneopts = "UT"
-  revision = "3e01752db0189b9157070a0e1668a620f9a85da2"
-  version = "v1.0.6"
+  revision = "a67f783a3814b8729bd2dac5780b5f78f8dbd64d"
+  version = "v1.1.0"
 
 [[projects]]
   digest = "1:516e71bed754268937f57d4ecb190e01958452336fa73dbac880894164e91c1f"
@@ -370,11 +378,11 @@
     "ssh/terminal",
   ]
   pruneopts = "UT"
-  revision = "0e37d006457bf46f9e6692014ba72ef82c33022c"
+  revision = "5295e8364332db77d75fce11f1d19c053919a9c9"
 
 [[projects]]
   branch = "master"
-  digest = "1:deafe4ab271911fec7de5b693d7faae3f38796d9eb8622e2b9e7df42bb3dfea9"
+  digest = "1:505dbee0833715a72a529bb57c354826ad42a4496fad787fa143699b4de1a6d0"
   name = "golang.org/x/net"
   packages = [
     "context",
@@ -386,18 +394,18 @@
     "trace",
   ]
   pruneopts = "UT"
-  revision = "2f5d2388922f370f4355f327fcf4cfe9f5583908"
+  revision = "4dfa2610cdf3b287375bbba5b8f2a14d3b01d8de"
 
 [[projects]]
   branch = "master"
-  digest = "1:3bb4674103eef9bf860b88e59048c67ad646de4274ea7de8d71d16e9f8209bff"
+  digest = "1:2c607ffa8a0a34a9acba4aba7b33d981b5a2150bfcec41b1f2ef1d791bcf6c14"
   name = "golang.org/x/sys"
   packages = [
     "unix",
     "windows",
   ]
   pruneopts = "UT"
-  revision = "d641721ec2dead6fe5ca284096fe4b1fcd49e427"
+  revision = "dad3d9fb7b6e83d0f9ac8f54670f6334c3a287b4"
 
 [[projects]]
   digest = "1:a2ab62866c75542dd18d2b069fec854577a20211d7c0ea6ae746072a1dccdd18"
@@ -428,7 +436,7 @@
   name = "google.golang.org/genproto"
   packages = ["googleapis/rpc/status"]
   pruneopts = "UT"
-  revision = "c3f76f3b92d1ffa4c58a9ff842a58b8877655e0f"
+  revision = "0e822944c569bf5c9afd034adaa56208bd2906ac"
 
 [[projects]]
   digest = "1:2dab32a43451e320e49608ff4542fdfc653c95dcc35d0065ec9c6c3dd540ed74"

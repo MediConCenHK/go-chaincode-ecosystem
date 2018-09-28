@@ -20,12 +20,15 @@ func (t GlobalChaincode) Init(stub shim.ChaincodeStubInterface) (response peer.R
 	return shim.Success(nil)
 }
 
-func ClientAuth(cid ClientIdentity) bool {
-	return true
-}
 func (t GlobalChaincode) Put(cid ClientIdentity, txType string, params []string) {
+	transient := t.GetTransient()
 	switch txType {
 	case "token":
+		var payerAuth PayerAuth
+		payerAuth = func(transient map[string][]byte) bool {
+			return true
+		}
+		payerAuth.Exec(transient)
 		var tokenID = params[0]
 		var tokenData TokenData
 		FromJson([]byte(params[1]), &tokenData)
@@ -48,6 +51,27 @@ func (t GlobalChaincode) Get(cid ClientIdentity, txType string, params []string)
 	}
 	return nil
 }
+func (t GlobalChaincode) Transfer(cid ClientIdentity, txType string, params []string) []byte {
+	switch txType {
+	case "token":
+		var tokenID = params[0]
+		var from = params[1]
+		var to = params[2]
+		var toType = params[3]
+		var tokenData TokenData
+		var exist = t.GetStateObj(tokenID, &tokenData)
+		if ! exist {
+			PanicString("token " + tokenID + " not exist")
+		}
+		if tokenData.Owner != from {
+			PanicString("token " + tokenID + " does not belong to " + from)
+		}
+		tokenData.Owner = to
+		tokenData.OwnerType = tokenData.OwnerType.New(toType)
+		t.PutStateObj(tokenID, tokenData)
+	}
+	return nil;
+}
 func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer.Response) {
 	DeferPeerResponse(&response)
 	t.Prepare(stub)
@@ -64,6 +88,8 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 	case "get":
 		var databytes = t.Get(clientID, txType, params)
 		return shim.Success(databytes)
+	case "transfer":
+		t.Transfer(clientID, txType, params)
 	default:
 		PanicString("unknown fcn:" + fcn)
 	}
