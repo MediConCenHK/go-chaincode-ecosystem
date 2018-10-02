@@ -6,11 +6,13 @@ import (
 	. "github.com/davidkhala/goutils"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	"github.com/hyperledger/fabric/protos/peer"
-	"strings"
 )
 
 type GlobalChaincode struct {
 	CommonChaincode
+	ClinicAuth
+	PayerAuth
+	MemberAuth
 }
 
 func (t GlobalChaincode) Init(stub shim.ChaincodeStubInterface) (response peer.Response) {
@@ -20,76 +22,61 @@ func (t GlobalChaincode) Init(stub shim.ChaincodeStubInterface) (response peer.R
 	return shim.Success(nil)
 }
 
-func (t GlobalChaincode) Put(cid ClientIdentity, txType string, params []string) {
-	transient := t.GetTransient()
-	switch txType {
-	case "token":
-		var payerAuth PayerAuth
-		payerAuth = func(transient map[string][]byte) bool {
-			return true
-		}
-		payerAuth.Exec(transient)
-		var tokenID = params[0]
-		var tokenData TokenData
-		FromJson([]byte(params[1]), &tokenData)
-		t.PutStateObj(tokenID, tokenData)
-	default:
-		PanicString("unknown txType:" + txType)
-	}
+func (t GlobalChaincode) putToken(cid ClientIdentity, params []string) {
+	var tokenID = params[0]
+	var tokenData TokenData
+	FromJson([]byte(params[1]), &tokenData)
+	t.PutStateObj(tokenID, tokenData)
 }
-func (t GlobalChaincode) Get(cid ClientIdentity, txType string, params []string) []byte {
-	switch txType {
-	case "token":
-		var tokenID = params[0]
-		var tokenData TokenData
-		var exist = t.GetStateObj(tokenID, &tokenData)
-		if ! exist {
-			return nil
-		}
-		//TODO more logic here
-		return ToJson(tokenData)
+func (t GlobalChaincode) getToken(cid ClientIdentity, params []string) []byte {
+	var tokenID = params[0]
+	var tokenData TokenData
+	var exist = t.GetStateObj(tokenID, &tokenData)
+	if ! exist {
+		return nil
 	}
-	return nil
+	//TODO more logic here
+	return ToJson(tokenData)
 }
-func (t GlobalChaincode) Transfer(cid ClientIdentity, txType string, params []string) []byte {
-	switch txType {
-	case "token":
-		var tokenID = params[0]
-		var from = params[1]
-		var to = params[2]
-		var toType = params[3]
-		var tokenData TokenData
-		var exist = t.GetStateObj(tokenID, &tokenData)
-		if ! exist {
-			PanicString("token " + tokenID + " not exist")
-		}
-		if tokenData.Owner != from {
-			PanicString("token " + tokenID + " does not belong to " + from)
-		}
-		tokenData.Owner = to
-		tokenData.OwnerType = tokenData.OwnerType.New(toType)
-		t.PutStateObj(tokenID, tokenData)
+func (t GlobalChaincode) transferToken(cid ClientIdentity, params []string) []byte {
+	var tokenID = params[0]
+	var tokenTransferRequest TokenTransferRequest
+	FromJson([]byte(params[1]), &tokenTransferRequest)
+	var tokenData TokenData
+	var exist = t.GetStateObj(tokenID, &tokenData)
+	if ! exist {
+		PanicString("token " + tokenID + " not exist")
 	}
-	return nil;
+	if tokenData.Owner != tokenTransferRequest.FromOwner || tokenData.OwnerType != tokenTransferRequest.FromOwnerType {
+		PanicString("token " + tokenID + " does not belong to [" + tokenTransferRequest.FromOwnerType.To() + "]" + tokenTransferRequest.FromOwner)
+	}
+	tokenData.Owner = tokenTransferRequest.ToOwner
+	tokenData.OwnerType = tokenTransferRequest.ToOwnerType
+	t.PutStateObj(tokenID, tokenData)
+	return ToJson(tokenData)
 }
 func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer.Response) {
 	DeferPeerResponse(&response)
 	t.Prepare(stub)
 
 	var fcn, params = stub.GetFunctionAndParameters()
-	var txType = params[0]
-	t.Logger.Info("Invoke:fcn:" + fcn + " txType:" + txType)
-	params = params[1:]
+	t.Logger.Info("Invoke:fcn:" + fcn)
 	var clientID = NewClientIdentity(stub)
 
-	switch strings.ToLower(fcn) {
-	case "put":
-		t.Put(clientID, txType, params)
-	case "get":
-		var databytes = t.Get(clientID, txType, params)
+	var transient = t.GetTransient()
+	switch fcn {
+	case Fcn_putToken:
+		t.PayerAuth.Exec(transient)
+		t.putToken(clientID, params)
+	case Fcn_getToken:
+		if ! t.ClinicAuth(transient) && !t.MemberAuth(transient) && ! t.PayerAuth(transient) {
+			PanicString("Identity authentication failed")
+		}
+		var databytes = t.getToken(clientID, params)
 		return shim.Success(databytes)
-	case "transfer":
-		t.Transfer(clientID, txType, params)
+	case Fcn_transferToken:
+		t.PayerAuth.Exec(transient) //TODO modify case
+		t.transferToken(clientID, params)
 	default:
 		PanicString("unknown fcn:" + fcn)
 	}
@@ -98,6 +85,15 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 
 func main() {
 	var cc = GlobalChaincode{}
-	cc.SetLogger("Global")
+	cc.ClinicAuth = func(transient map[string][]byte) bool {
+		return true
+	}
+	cc.PayerAuth = func(transient map[string][]byte) bool {
+		return true
+	}
+	cc.MemberAuth = func(transient map[string][]byte) bool {
+		return true
+	}
+	cc.SetLogger(GlobalCCID)
 	shim.Start(cc)
 }
