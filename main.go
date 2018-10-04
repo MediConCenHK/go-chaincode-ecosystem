@@ -26,6 +26,7 @@ func (t GlobalChaincode) putToken(cid ClientIdentity, params []string) {
 	var tokenID = params[0]
 	var tokenData TokenData
 	FromJson([]byte(params[1]), &tokenData)
+	tokenData.Client = cid
 	t.PutStateObj(tokenID, tokenData)
 }
 func (t GlobalChaincode) getToken(cid ClientIdentity, params []string) []byte {
