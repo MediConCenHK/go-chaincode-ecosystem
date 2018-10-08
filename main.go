@@ -16,7 +16,7 @@ type GlobalChaincode struct {
 }
 
 func (t GlobalChaincode) Init(stub shim.ChaincodeStubInterface) (response peer.Response) {
-	DeferPeerResponse(&response)
+	defer Deferred(DeferHandlerPeerResponse, &response)
 	t.Prepare(stub)
 	t.Logger.Info("########### " + t.Name + " Init ###########")
 	return shim.Success(nil)
@@ -57,7 +57,7 @@ func (t GlobalChaincode) transferToken(cid ClientIdentity, params []string) []by
 	return ToJson(tokenData)
 }
 func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer.Response) {
-	DeferPeerResponse(&response)
+	defer Deferred(DeferHandlerPeerResponse, &response)
 	t.Prepare(stub)
 
 	var fcn, params = stub.GetFunctionAndParameters()
@@ -69,19 +69,21 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 	case Fcn_putToken:
 		t.PayerAuth.Exec(transient)
 		t.putToken(clientID, params)
+		response = shim.Success(nil)
 	case Fcn_getToken:
 		if ! t.ClinicAuth(transient) && !t.MemberAuth(transient) && ! t.PayerAuth(transient) {
 			PanicString("Identity authentication failed")
 		}
 		var databytes = t.getToken(clientID, params)
-		return shim.Success(databytes)
+		response = shim.Success(databytes)
 	case Fcn_transferToken:
 		t.PayerAuth.Exec(transient) //TODO modify case
-		t.transferToken(clientID, params)
+		var databytes = t.transferToken(clientID, params)
+		response = shim.Success(databytes)
 	default:
 		PanicString("unknown fcn:" + fcn)
 	}
-	return shim.Success(nil)
+	return
 }
 
 func main() {
