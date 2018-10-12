@@ -11,8 +11,9 @@ import (
 type GlobalChaincode struct {
 	CommonChaincode
 	ClinicAuth
-	PayerAuth
+	NetworkAuth
 	MemberAuth
+	InsuranceAuth
 }
 
 func (t GlobalChaincode) Init(stub shim.ChaincodeStubInterface) (response peer.Response) {
@@ -67,17 +68,14 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 	var transient = t.GetTransient()
 	switch fcn {
 	case Fcn_putToken:
-		t.PayerAuth.Exec(transient)
+		t.InsuranceAuth.Exec(transient)
 		t.putToken(clientID, params)
 		response = shim.Success(nil)
 	case Fcn_getToken:
-		if ! t.ClinicAuth(transient) && !t.MemberAuth(transient) && ! t.PayerAuth(transient) {
-			PanicString("Identity authentication failed")
-		}
 		var databytes = t.getToken(clientID, params)
 		response = shim.Success(databytes)
 	case Fcn_transferToken:
-		t.PayerAuth.Exec(transient) //TODO modify case
+		t.InsuranceAuth.Exec(transient) //TODO modify case
 		var databytes = t.transferToken(clientID, params)
 		response = shim.Success(databytes)
 	default:
@@ -91,7 +89,10 @@ func main() {
 	cc.ClinicAuth = func(transient map[string][]byte) bool {
 		return true
 	}
-	cc.PayerAuth = func(transient map[string][]byte) bool {
+	cc.InsuranceAuth = func(transient map[string][]byte) bool {
+		return true
+	}
+	cc.NetworkAuth = func(transient map[string][]byte) bool {
 		return true
 	}
 	cc.MemberAuth = func(transient map[string][]byte) bool {
