@@ -22,11 +22,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:8521c5d21ceaf237b96e9b027bcdc4e1bc6384a96d7ccd700d5415f0e80af2ad"
+  digest = "1:b29180450e536aa019b1c9ac4a994edef597dc2215ce27dc6d7b3971c2e01e05"
   name = "github.com/MediConCenHK/go-chaincode-common"
   packages = ["."]
   pruneopts = "UT"
-  revision = "5cf772f8d5dbf9032846262fb95f29198d1895fd"
+  revision = "a98eb88a5bbcb9df3cff0b19b388a926eb2c859f"
 
 [[projects]]
   digest = "1:f9ae348e1f793dcf9ed930ed47136a67343dbd6809c5c91391322267f4476892"
@@ -54,19 +54,19 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:d9dac9fb02c0465bc07fd3de5515b29acdb44c6112509378581b56538289c91f"
+  digest = "1:118a54eff25cb647ae9b127ea3ae3e04d6f7abcc83a99cb68855c71b0bb774fd"
   name = "github.com/davidkhala/fabric-common-chaincode-golang"
   packages = ["."]
   pruneopts = "UT"
-  revision = "f31fb0c65984b131d8b5c94eec9d829cbecd2273"
+  revision = "d8cd5a425339a4f0d156aaf26527cb2002413b5c"
 
 [[projects]]
   branch = "master"
-  digest = "1:fdf744454966f466c686938bfe13a8f3e1920ee0a787fa57362816320c07abdc"
+  digest = "1:d82c67a343fa65999917bc0c8266d9ed69ad96d9bea2bb06595a9e09f802837c"
   name = "github.com/davidkhala/goutils"
   packages = ["."]
   pruneopts = "UT"
-  revision = "d90db03359078a860d9759f85a67ff5a33ca6faf"
+  revision = "b21cf57d29c1a4d206576da1ea68e6df0b9b439d"
 
 [[projects]]
   digest = "1:49a2a779b1af8f02547b5a505eb1382f9d42299ec7215f34a32535e6af9a1c9e"
@@ -378,7 +378,7 @@
     "ssh/terminal",
   ]
   pruneopts = "UT"
-  revision = "7c1a557ab941a71c619514f229f0b27ccb0c27cf"
+  revision = "0c41d7ab0a0ee717d4590a44bcb987dfd9e183eb"
 
 [[projects]]
   branch = "master"
