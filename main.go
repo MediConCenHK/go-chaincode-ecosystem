@@ -34,8 +34,8 @@ func (t GlobalChaincode) putToken(cid ClientIdentity, params []string) {
 func (t GlobalChaincode) getToken(cid ClientIdentity, params []string) []byte {
 	var tokenID = params[0]
 	var tokenData TokenData
-	t.Logger.Debug("getToken", tokenID)
 	var exist = t.GetStateObj(tokenID, &tokenData)
+	t.Logger.Debug("getToken", tokenID, tokenData)
 	if ! exist {
 		return nil
 	}
