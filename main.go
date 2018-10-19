@@ -19,7 +19,7 @@ type GlobalChaincode struct {
 func (t GlobalChaincode) Init(stub shim.ChaincodeStubInterface) (response peer.Response) {
 	defer Deferred(DeferHandlerPeerResponse, &response)
 	t.Prepare(stub)
-	t.Logger.Info("########### " + t.Name + " Init ###########")
+	t.Logger.Info("Init")
 	return shim.Success(nil)
 }
 
@@ -28,14 +28,12 @@ func (t GlobalChaincode) putToken(cid ClientIdentity, params []string) {
 	var tokenData TokenData
 	FromJson([]byte(params[1]), &tokenData)
 	tokenData.Client = cid
-	t.Logger.Debug("putToken", tokenID)
 	t.PutStateObj(tokenID, tokenData)
 }
 func (t GlobalChaincode) getToken(cid ClientIdentity, params []string) []byte {
 	var tokenID = params[0]
 	var tokenData TokenData
 	var exist = t.GetStateObj(tokenID, &tokenData)
-	t.Logger.Debug("getToken", tokenID, tokenData)
 	if ! exist {
 		return nil
 	}
@@ -64,7 +62,8 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 	t.Prepare(stub)
 
 	var fcn, params = stub.GetFunctionAndParameters()
-	t.Logger.Info("Invoke:fcn:" + fcn)
+	t.Logger.Info("Invoke:fcn", fcn)
+	t.Logger.Debug("Invoke:params", params)
 	var clientID = NewClientIdentity(stub)
 
 	var transient = t.GetTransient()
