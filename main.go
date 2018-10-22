@@ -65,24 +65,22 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 	t.Logger.Info("Invoke:fcn", fcn)
 	t.Logger.Debug("Invoke:params", params)
 	var clientID = NewClientIdentity(stub)
-
 	var transient = t.GetTransient()
+	var responseBytes []byte
 	switch fcn {
 	case Fcn_putToken:
 		t.InsuranceAuth.Exec(transient)
 		t.putToken(clientID, params)
-		response = shim.Success(nil)
 	case Fcn_getToken:
-		var databytes = t.getToken(clientID, params)
-		response = shim.Success(databytes)
+		responseBytes = t.getToken(clientID, params)
 	case Fcn_transferToken:
 		t.InsuranceAuth.Exec(transient) //TODO modify case
-		var databytes = t.transferToken(clientID, params)
-		response = shim.Success(databytes)
+		responseBytes = t.transferToken(clientID, params)
 	default:
 		PanicString("unknown fcn:" + fcn)
 	}
-	return
+	t.Logger.Debug("response", string(responseBytes))
+	return shim.Success(responseBytes)
 }
 
 func main() {
