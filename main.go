@@ -27,14 +27,11 @@ func (t GlobalChaincode) putToken(cid ClientIdentity, tokenID string, tokenData 
 	tokenData.Client = cid
 	t.PutStateObj(tokenID, tokenData)
 }
-func panicTokenNotFound(token string) {
-	PanicString("token " + token + " not exist")
-}
 func (t GlobalChaincode) getToken(cid ClientIdentity, token string) []byte {
 	var tokenData TokenData
 	var exist = t.GetStateObj(token, &tokenData)
 	if ! exist {
-		panicTokenNotFound(token)
+		return nil
 	}
 	return ToJson(tokenData)
 }
@@ -43,7 +40,7 @@ func (t GlobalChaincode) transferToken(cid ClientIdentity, token string, request
 	var tokenData TokenData
 	var exist = t.GetStateObj(token, &tokenData)
 	if ! exist {
-		panicTokenNotFound(token)
+		PanicString("token " + token + " not exist")
 	}
 	if tokenData.Owner != request.FromOwner || tokenData.OwnerType != request.FromOwnerType {
 		PanicString("token " + token + " does not belong to [" + request.FromOwnerType.To() + "]" + request.FromOwner)
