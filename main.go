@@ -27,11 +27,14 @@ func (t GlobalChaincode) putToken(cid ClientIdentity, tokenID string, tokenData 
 	tokenData.Client = cid
 	t.PutStateObj(tokenID, tokenData)
 }
+func panicTokenNotFound(token string) {
+	PanicString("token " + token + " not exist")
+}
 func (t GlobalChaincode) getToken(cid ClientIdentity, token string) []byte {
 	var tokenData TokenData
 	var exist = t.GetStateObj(token, &tokenData)
 	if ! exist {
-		return nil
+		panicTokenNotFound(token)
 	}
 	return ToJson(tokenData)
 }
@@ -40,7 +43,7 @@ func (t GlobalChaincode) transferToken(cid ClientIdentity, token string, request
 	var tokenData TokenData
 	var exist = t.GetStateObj(token, &tokenData)
 	if ! exist {
-		PanicString("token " + token + " not exist")
+		panicTokenNotFound(token)
 	}
 	if tokenData.Owner != request.FromOwner || tokenData.OwnerType != request.FromOwnerType {
 		PanicString("token " + token + " does not belong to [" + request.FromOwnerType.To() + "]" + request.FromOwner)
@@ -59,14 +62,14 @@ func (t GlobalChaincode) history(token string) []byte {
 	return ToJson(history)
 
 }
-func panicToken(token string) {
+func panicEmptyTokenParam(token string) {
 	if token == "" {
-		PanicString("token is empty")
+		PanicString("param:token is empty")
 	}
 }
-func panicTokenData(tokenData string) []byte {
+func panicEmptyTokenDataParam(tokenData string) []byte {
 	if tokenData == "" {
-		PanicString("tokenData is empty")
+		PanicString("param:tokenData is empty")
 	}
 	return []byte(tokenData)
 }
@@ -85,24 +88,24 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 	case Fcn_putToken:
 		t.InsuranceAuth.Exec(transient)
 		var tokenID = params[0] //TODO nil check
-		panicToken(tokenID)
+		panicEmptyTokenParam(tokenID)
 		var tokenData TokenData //TODO nil check
-		FromJson(panicTokenData(params[1]), &tokenData)
+		FromJson(panicEmptyTokenDataParam(params[1]), &tokenData)
 		t.putToken(clientID, tokenID, tokenData)
 	case Fcn_getToken:
 		var tokenID = params[0]
-		panicToken(tokenID)
+		panicEmptyTokenParam(tokenID)
 		responseBytes = t.getToken(clientID, tokenID)
 	case Fcn_transferToken:
 		t.InsuranceAuth.Exec(transient) //TODO modify case
 		var tokenID = params[0]
-		panicToken(tokenID)
+		panicEmptyTokenParam(tokenID)
 		var tokenTransferRequest TokenTransferRequest
-		FromJson(panicTokenData(params[1]), &tokenTransferRequest)
+		FromJson(panicEmptyTokenDataParam(params[1]), &tokenTransferRequest)
 		responseBytes = t.transferToken(clientID, tokenID, tokenTransferRequest)
 	case Fcn_tokenHistory:
 		var tokenID = params[0]
-		panicToken(tokenID)
+		panicEmptyTokenParam(tokenID)
 		responseBytes = t.history(tokenID)
 	default:
 		PanicString("unknown fcn:" + fcn)
