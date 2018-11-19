@@ -22,11 +22,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:04d0c6cacd7c3f9ee89e94c9d39f0ea5d6c66ace316b954ef4cc1f6715f726e3"
+  digest = "1:ede0198fd76293423cc583033d42ac657629ac7101e1a89c474e9e160d2df93b"
   name = "github.com/MediConCenHK/go-chaincode-common"
   packages = ["."]
   pruneopts = "UT"
-  revision = "fa237da5cbec87b6c2b5839d5d4d08cb6d6f1b98"
+  revision = "b3402f11fce8b69d222cc8a904f6dd339a5df091"
 
 [[projects]]
   digest = "1:f9ae348e1f793dcf9ed930ed47136a67343dbd6809c5c91391322267f4476892"
@@ -54,11 +54,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:6c5cb79041967cc93779a7ce9fcda632b786f7c6e463d33efa7f34bedaa30f9e"
+  digest = "1:9e0ce1d89a637a0cf50a223b2e0638ef6e893b6cf84096d258362c2dfd48d4e4"
   name = "github.com/davidkhala/fabric-common-chaincode-golang"
   packages = ["."]
   pruneopts = "UT"
-  revision = "35264465e709700cdd0c1d805ff418166a860c2f"
+  revision = "53589d805351d8c7261ff83fafb40cba7b3515eb"
 
 [[projects]]
   branch = "master"
@@ -69,7 +69,7 @@
     "crypto",
   ]
   pruneopts = "UT"
-  revision = "fdc7d7558320fd66639253401266e13b7769b9cc"
+  revision = "06ca15e68cec9b0bd5016eaae9e137b0c3bbde35"
 
 [[projects]]
   digest = "1:49a2a779b1af8f02547b5a505eb1382f9d42299ec7215f34a32535e6af9a1c9e"
@@ -194,7 +194,7 @@
     "protos/utils",
   ]
   pruneopts = "UT"
-  revision = "306640d399bbea46d25bfa1673f35a3fa8187b49"
+  revision = "6c073551a117b8281d676bded20826d2516640ce"
 
 [[projects]]
   branch = "master"
@@ -397,18 +397,18 @@
     "trace",
   ]
   pruneopts = "UT"
-  revision = "03003ca0c849e57b6ea29a4bab8d3cb6e4d568fe"
+  revision = "adae6a3d119ae4890b46832a2e88a95adc62b8e7"
 
 [[projects]]
   branch = "master"
-  digest = "1:6a875550c3b582f6c2d7e2ce44aba792511f00016d7c46b0a4fb26f730ef3058"
+  digest = "1:a089387bbfcfa884e5aafeebb85929993195bb8959766b1d20102841d47e0b0e"
   name = "golang.org/x/sys"
   packages = [
     "unix",
     "windows",
   ]
   pruneopts = "UT"
-  revision = "66b7b1311ac80bbafcd2daeef9a5e6e2cd1e2399"
+  revision = "93218def8b18e66adbdab3eca8ec334700329f1f"
 
 [[projects]]
   digest = "1:a2ab62866c75542dd18d2b069fec854577a20211d7c0ea6ae746072a1dccdd18"

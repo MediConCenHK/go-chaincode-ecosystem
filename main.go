@@ -35,22 +35,6 @@ func (t GlobalChaincode) getToken(cid ClientIdentity, token string) []byte {
 	}
 	return ToJson(tokenData)
 }
-func (t GlobalChaincode) transferToken(cid ClientIdentity, token string, request TokenTransferRequest) []byte {
-
-	var tokenData TokenData
-	var exist = t.GetStateObj(token, &tokenData)
-	if ! exist {
-		PanicString("token " + token + " not exist")
-	}
-	if tokenData.Owner != request.FromOwner || tokenData.OwnerType != request.FromOwnerType {
-		PanicString("token " + token + " does not belong to [" + request.FromOwnerType.To() + "]" + request.FromOwner)
-	}
-	tokenData.Owner = request.ToOwner
-	tokenData.OwnerType = request.ToOwnerType
-	tokenData.Client = cid
-	t.PutStateObj(token, tokenData)
-	return ToJson(tokenData)
-}
 func (t GlobalChaincode) history(token string) []byte {
 	var filter = func(modification interface{}) bool {
 		return true
@@ -70,6 +54,8 @@ func panicEmptyTokenDataParam(tokenData string) []byte {
 	}
 	return []byte(tokenData)
 }
+
+//TODO use Token.hash as key
 func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer.Response) {
 	defer Deferred(DeferHandlerPeerResponse, &response)
 	t.Prepare(stub)
@@ -93,17 +79,24 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 		var tokenID = params[0]
 		panicEmptyTokenParam(tokenID)
 		responseBytes = t.getToken(clientID, tokenID)
-	case Fcn_transferToken:
-		t.InsuranceAuth.Exec(transient) //TODO modify case
-		var tokenID = params[0]
-		panicEmptyTokenParam(tokenID)
-		var tokenTransferRequest TokenTransferRequest
-		FromJson(panicEmptyTokenDataParam(params[1]), &tokenTransferRequest)
-		responseBytes = t.transferToken(clientID, tokenID, tokenTransferRequest)
 	case Fcn_tokenHistory:
 		var tokenID = params[0]
 		panicEmptyTokenParam(tokenID)
 		responseBytes = t.history(tokenID)
+	case Fcn_deleteToken:
+		var tokenID = params[0]
+		panicEmptyTokenParam(tokenID)
+		var tokenDataBytes = t.getToken(clientID, tokenID)
+
+		if tokenDataBytes == nil {
+			return //not exist, swallow
+		}
+		var tokenData TokenData
+		FromJson(tokenDataBytes, &tokenData)
+		if clientID.Cert.Subject.CommonName != tokenData.Owner {
+			PanicString("Token Data Owner " + tokenData.Owner + " mismatched with CID.Subject.CN:" + clientID.Cert.Subject.CommonName)
+		}
+		t.DelState(tokenID)
 	default:
 		PanicString("unknown fcn:" + fcn)
 	}
