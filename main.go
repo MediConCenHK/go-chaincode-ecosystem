@@ -43,11 +43,6 @@ func (t GlobalChaincode) history(token string) []byte {
 	return ToJson(history)
 
 }
-func panicEmptyTokenParam(token string) {
-	if token == "" {
-		PanicString("param:token is empty")
-	}
-}
 func panicEmptyTokenDataParam(tokenData string) []byte {
 	if tokenData == "" {
 		PanicString("param:tokenData is empty")
@@ -55,7 +50,6 @@ func panicEmptyTokenDataParam(tokenData string) []byte {
 	return []byte(tokenData)
 }
 
-//TODO use Token.hash as key
 func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer.Response) {
 	defer Deferred(DeferHandlerPeerResponse, &response)
 	t.Prepare(stub)
@@ -66,26 +60,24 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 	var clientID = NewClientIdentity(stub)
 	var transient = t.GetTransient()
 	var responseBytes []byte
+	var tokenRaw = params[0]
+	if tokenRaw == "" {
+		PanicString("param:token is empty")
+	}
+	var tokenID = Hash([]byte(tokenRaw))
+
 	const Fcn_tokenHistory = "tokenHistory"
 	switch fcn {
 	case Fcn_putToken:
 		t.InsuranceAuth.Exec(transient)
-		var tokenID = params[0] //TODO nil check
-		panicEmptyTokenParam(tokenID)
-		var tokenData TokenData //TODO nil check
+		var tokenData TokenData
 		FromJson(panicEmptyTokenDataParam(params[1]), &tokenData)
 		t.putToken(clientID, tokenID, tokenData)
 	case Fcn_getToken:
-		var tokenID = params[0]
-		panicEmptyTokenParam(tokenID)
 		responseBytes = t.getToken(clientID, tokenID)
 	case Fcn_tokenHistory:
-		var tokenID = params[0]
-		panicEmptyTokenParam(tokenID)
 		responseBytes = t.history(tokenID)
 	case Fcn_deleteToken:
-		var tokenID = params[0]
-		panicEmptyTokenParam(tokenID)
 		var tokenDataBytes = t.getToken(clientID, tokenID)
 
 		if tokenDataBytes == nil {
