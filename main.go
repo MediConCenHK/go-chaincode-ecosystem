@@ -85,6 +85,7 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 		}
 		var tokenData TokenData
 		FromJson(tokenDataBytes, &tokenData)
+		//TODO some chars are now allowed in tokenData.Owner
 		if clientID.Cert.Subject.CommonName != tokenData.Owner {
 			PanicString("Token Data Owner " + tokenData.Owner + " mismatched with CID.Subject.CN:" + clientID.Cert.Subject.CommonName)
 		}
