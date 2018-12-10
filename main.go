@@ -4,7 +4,6 @@ import (
 	. "github.com/MediConCenHK/go-chaincode-common"
 	. "github.com/davidkhala/fabric-common-chaincode-golang"
 	. "github.com/davidkhala/goutils"
-	"github.com/davidkhala/goutils/crypto"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	"github.com/hyperledger/fabric/protos/peer"
 )
@@ -86,10 +85,10 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 		}
 		var tokenData TokenData
 		FromJson(tokenDataBytes, &tokenData)
-		var ownerHashHex = HexEncode(crypto.HashSha256([]byte(tokenData.Owner)))[32:] //some chars are now allowed in Cert CommonName
 
-		if clientID.Cert.Subject.CommonName != (ownerHashHex + "@" + tokenData.Manager) {
-			PanicString("["+tokenID+"]Token Data Owner(" + ownerHashHex + ")[" + tokenData.Owner + "] mismatched with CID.Subject.CN:" + clientID.Cert.Subject.CommonName)
+		//TODO tune CA first
+		if clientID.Cert.Subject.CommonName != ("Admin@" + tokenData.Manager) {// allow manager to delete
+			PanicString("["+tokenID+"]Token Data Manager(" + tokenData.Manager + ") mismatched with CID.Subject.CN:" + clientID.Cert.Subject.CommonName)
 		}
 		t.DelState(tokenID)
 	default:
