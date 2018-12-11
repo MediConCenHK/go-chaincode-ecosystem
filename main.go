@@ -87,8 +87,8 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 		FromJson(tokenDataBytes, &tokenData)
 
 		//TODO tune CA first
-		if clientID.Cert.Subject.CommonName != ("Admin@" + tokenData.Manager) {// allow manager to delete
-			PanicString("["+tokenID+"]Token Data Manager(" + tokenData.Manager + ") mismatched with CID.Subject.CN:" + clientID.Cert.Subject.CommonName)
+		if clientID.Cert.Issuer.CommonName != tokenData.Manager { // allow manager to delete
+			PanicString("[" + tokenID + "]Token Data Manager(" + tokenData.Manager + ") mismatched with CID.Subject.CN:" + clientID.Cert.Issuer.CommonName)
 		}
 		t.DelState(tokenID)
 	default:
