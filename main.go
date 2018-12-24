@@ -22,18 +22,19 @@ func (t GlobalChaincode) Init(stub shim.ChaincodeStubInterface) (response peer.R
 	t.Logger.Info("Init")
 	return shim.Success(nil)
 }
-
 func (t GlobalChaincode) putToken(cid ClientIdentity, tokenID string, tokenData TokenData) {
+	var transient = t.GetTransient()
+	t.InsuranceAuth.Exec(transient)
 	tokenData.Client = cid
 	t.PutStateObj(tokenID, tokenData)
 }
-func (t GlobalChaincode) getToken(cid ClientIdentity, token string) []byte {
+func (t GlobalChaincode) getToken(token string) *TokenData {
 	var tokenData TokenData
 	var exist = t.GetStateObj(token, &tokenData)
 	if ! exist {
 		return nil
 	}
-	return ToJson(tokenData)
+	return &tokenData
 }
 func (t GlobalChaincode) history(token string) []byte {
 	var filter = func(modification interface{}) bool {
@@ -43,11 +44,11 @@ func (t GlobalChaincode) history(token string) []byte {
 	return ToJson(history)
 
 }
-func panicEmptyTokenDataParam(tokenData string) []byte {
-	if tokenData == "" {
-		PanicString("param:tokenData is empty")
+func accessRight(identity ClientIdentity, tokenRaw string, data TokenData) {
+	//TODO tune CA first
+	if identity.Cert.Issuer.CommonName != data.Manager { // allow manager to delete
+		PanicString("[" + tokenRaw + "]Token Data Manager(" + data.Manager + ") mismatched with CID.Subject.CN:" + identity.Cert.Issuer.CommonName)
 	}
-	return []byte(tokenData)
 }
 
 func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer.Response) {
@@ -58,7 +59,6 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 	t.Logger.Info("Invoke:fcn", fcn)
 	t.Logger.Debug("Invoke:params", params)
 	var clientID = NewClientIdentity(stub)
-	var transient = t.GetTransient()
 	var responseBytes []byte
 	var tokenRaw = params[0]
 	if tokenRaw == "" {
@@ -66,31 +66,36 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 	}
 	var tokenID = Hash([]byte(tokenRaw))
 
-	const Fcn_tokenHistory = "tokenHistory"
+	var tokenData TokenData
 	switch fcn {
 	case Fcn_putToken:
-		t.InsuranceAuth.Exec(transient)
-		var tokenData TokenData
-		FromJson(panicEmptyTokenDataParam(params[1]), &tokenData)
+		FromJson([]byte(params[1]), &tokenData)//TODO test empty params
 		t.putToken(clientID, tokenID, tokenData)
 	case Fcn_getToken:
-		responseBytes = t.getToken(clientID, tokenID)
+		tokenData = *t.getToken(tokenID)
+		responseBytes = ToJson(tokenData)
 	case Fcn_tokenHistory:
 		responseBytes = t.history(tokenID)
 	case Fcn_deleteToken:
-		var tokenDataBytes = t.getToken(clientID, tokenID)
-
-		if tokenDataBytes == nil {
+		var tokenDataPtr = t.getToken(tokenID)
+		if tokenDataPtr == nil {
 			return //not exist, swallow
 		}
-		var tokenData TokenData
-		FromJson(tokenDataBytes, &tokenData)
-
-		//TODO tune CA first
-		if clientID.Cert.Issuer.CommonName != tokenData.Manager { // allow manager to delete
-			PanicString("[" + tokenID + "]Token Data Manager(" + tokenData.Manager + ") mismatched with CID.Subject.CN:" + clientID.Cert.Issuer.CommonName)
-		}
+		tokenData = *tokenDataPtr
+		accessRight(clientID, tokenRaw, tokenData)
 		t.DelState(tokenID)
+	case Fcn_moveToken:
+		var transferReq TokenTransferRequest
+
+		FromJson([]byte(params[1]), &transferReq)
+		var tokenDataPtr = t.getToken(tokenID)
+		if tokenDataPtr == nil {
+			PanicString("token not found:" + tokenRaw)
+		}
+		tokenData = *tokenDataPtr
+		accessRight(clientID, tokenRaw, tokenData)
+		tokenData = transferReq.ApplyOn(tokenData)
+		t.putToken(clientID, tokenID, tokenData)
 	default:
 		PanicString("unknown fcn:" + fcn)
 	}
