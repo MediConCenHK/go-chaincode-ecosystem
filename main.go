@@ -3,6 +3,8 @@ package main
 import (
 	. "github.com/MediConCenHK/go-chaincode-common"
 	. "github.com/davidkhala/fabric-common-chaincode-golang"
+	. "github.com/davidkhala/fabric-common-chaincode-golang/cid"
+
 	. "github.com/davidkhala/goutils"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	"github.com/hyperledger/fabric/protos/peer"
@@ -69,7 +71,7 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 	var tokenData TokenData
 	switch fcn {
 	case Fcn_putToken:
-		FromJson([]byte(params[1]), &tokenData)//TODO test empty params
+		FromJson([]byte(params[1]), &tokenData) //TODO test empty params
 		t.putToken(clientID, tokenID, tokenData)
 	case Fcn_getToken:
 		tokenData = *t.getToken(tokenID)
