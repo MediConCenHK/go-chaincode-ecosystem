@@ -3,7 +3,7 @@ package main
 import (
 	. "github.com/MediConCenHK/go-chaincode-common"
 	. "github.com/davidkhala/fabric-common-chaincode-golang"
-
+	. "github.com/davidkhala/fabric-common-chaincode-golang/cid"
 	. "github.com/davidkhala/goutils"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	"github.com/hyperledger/fabric/protos/peer"
