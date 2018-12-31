@@ -73,14 +73,17 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 		FromJson([]byte(params[1]), &tokenData) //TODO test empty params
 		t.putToken(clientID, tokenID, tokenData)
 	case Fcn_getToken:
-		tokenData = *t.getToken(tokenID)
+		var tokenDataPtr = t.getToken(tokenID)
+		if tokenDataPtr == nil {
+			break
+		}
 		responseBytes = ToJson(tokenData)
 	case Fcn_tokenHistory:
 		responseBytes = t.history(tokenID)
 	case Fcn_deleteToken:
 		var tokenDataPtr = t.getToken(tokenID)
 		if tokenDataPtr == nil {
-			return //not exist, swallow
+			break //not exist, swallow
 		}
 		tokenData = *tokenDataPtr
 		accessRight(clientID, tokenRaw, tokenData)
