@@ -22,11 +22,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:2b43923d15444370d6b33dd2541088d991505b5646afb6fc21c12897afe89a7d"
+  digest = "1:7f8748ff4a4d87e524a9d1e0057fb4ad15a9653e419293ff62b3b1db0a3227bb"
   name = "github.com/MediConCenHK/go-chaincode-common"
   packages = ["."]
   pruneopts = "UT"
-  revision = "557db052e334351ba30cbea442e574f008337df3"
+  revision = "775434ea71f796b7831cad34ffe2821a13932103"
 
 [[projects]]
   digest = "1:f9ae348e1f793dcf9ed930ed47136a67343dbd6809c5c91391322267f4476892"
@@ -54,25 +54,25 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:c038c2e44f3263346642a55b67d3168e84c7f1ca33ae12976a520c3fb17b69d9"
+  digest = "1:70684a8bd5a68e3ea2b690977b9e10f615f22fca04da2028a8ce7017be7d109d"
   name = "github.com/davidkhala/fabric-common-chaincode-golang"
   packages = [
     ".",
     "cid",
   ]
   pruneopts = "UT"
-  revision = "c3244ade1a977cdc650ac3bade25851fb6781d07"
+  revision = "b878e4e46504bd504cf3fef6dc207dc0929cd854"
 
 [[projects]]
   branch = "master"
-  digest = "1:a54768da1dc900ffc60c02bf946db1bdbe98234d9c4737251bce7c42c9d3c874"
+  digest = "1:42492fd0b40bacb072cf18a819d79929e8aa85d334c851094a5fde53d45deebf"
   name = "github.com/davidkhala/goutils"
   packages = [
     ".",
     "crypto",
   ]
   pruneopts = "UT"
-  revision = "b902ab696b5b20ce1a96ea13417893d06ad70d6e"
+  revision = "6e936dc5f777235088392061a85f2dedad27dd3d"
 
 [[projects]]
   digest = "1:49a2a779b1af8f02547b5a505eb1382f9d42299ec7215f34a32535e6af9a1c9e"
@@ -208,7 +208,7 @@
     "amcl/FP256BN",
   ]
   pruneopts = "UT"
-  revision = "6b78f7a22d950103fb2669aabb969f56d42d283b"
+  revision = "5ccba6eab8d6b39aa2cdd88db202bba0e25da5d7"
 
 [[projects]]
   digest = "1:0a69a1c0db3591fcefb47f115b224592c8dfa4368b7ba9fae509d5e16cdc95c8"
@@ -404,14 +404,14 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:3d5e79e10549fd9119cbefd614b6d351ef5bd0be2f2b103a4199788e784cbc68"
+  digest = "1:10405139b45e3a97a3842c93984710e30466eb933545f219ad3f5e45246973b4"
   name = "golang.org/x/sys"
   packages = [
     "unix",
     "windows",
   ]
   pruneopts = "UT"
-  revision = "b4a75ba826a64a70990f11a225237acd6ef35c9f"
+  revision = "9a3f9b0469bbc6b8802087ae5c0af9f61502de01"
 
 [[projects]]
   digest = "1:a2ab62866c75542dd18d2b069fec854577a20211d7c0ea6ae746072a1dccdd18"
