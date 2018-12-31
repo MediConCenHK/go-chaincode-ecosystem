@@ -77,7 +77,7 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 		if tokenDataPtr == nil {
 			break
 		}
-		responseBytes = ToJson(tokenData)
+		responseBytes = ToJson(*tokenDataPtr)
 	case Fcn_tokenHistory:
 		responseBytes = t.history(tokenID)
 	case Fcn_deleteToken:
