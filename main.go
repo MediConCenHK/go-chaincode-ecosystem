@@ -45,12 +45,6 @@ func (t GlobalChaincode) history(token string) []byte {
 	return ToJson(history)
 
 }
-func accessRight(identity ClientIdentity, tokenRaw string, data TokenData) {
-	//TODO tune CA first
-	if identity.Cert.Issuer.CommonName != data.Manager { // allow manager to delete
-		PanicString("[" + tokenRaw + "]Token Data Manager(" + data.Manager + ") mismatched with CID.Subject.CN:" + identity.Cert.Issuer.CommonName)
-	}
-}
 
 func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer.Response) {
 	defer Deferred(DeferHandlerPeerResponse, &response)
@@ -86,7 +80,9 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 			break //not exist, swallow
 		}
 		tokenData = *tokenDataPtr
-		accessRight(clientID, tokenRaw, tokenData)
+		if clientID.Cert.Issuer.CommonName != tokenData.Manager { // allow manager to delete
+			PanicString("[" + tokenRaw + "]Token Data Manager(" + tokenData.Manager + ") mismatched with CID.Subject.CN:" + clientID.Cert.Issuer.CommonName)
+		}
 		t.DelState(tokenID)
 	case Fcn_moveToken:
 		var transferReq TokenTransferRequest
@@ -97,8 +93,11 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 			PanicString("token not found:" + tokenRaw)
 		}
 		tokenData = *tokenDataPtr
-		accessRight(clientID, tokenRaw, tokenData)
+		if tokenData.OwnerType != OwnerTypeMember {
+			PanicString("original token OwnerType should be member")
+		}
 		tokenData = transferReq.ApplyOn(tokenData)
+		tokenData.OwnerType = OwnerTypeNetwork
 		t.putToken(clientID, tokenID, tokenData)
 	default:
 		PanicString("unknown fcn:" + fcn)
