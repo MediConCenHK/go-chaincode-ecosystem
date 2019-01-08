@@ -27,6 +27,7 @@ func (t GlobalChaincode) putToken(cid ClientIdentity, tokenID string, tokenData 
 	var transient = t.GetTransient()
 	t.InsuranceAuth.Exec(transient)
 	tokenData.Client = cid
+	tokenData.OwnerType = OwnerTypeMember
 	t.PutStateObj(tokenID, tokenData)
 }
 func (t GlobalChaincode) getToken(token string) *TokenData {
@@ -94,7 +95,7 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 		}
 		tokenData = *tokenDataPtr
 		if tokenData.OwnerType != OwnerTypeMember {
-			PanicString("original token OwnerType should be member")
+			PanicString("original token OwnerType should be member, but got " + tokenData.OwnerType.To())
 		}
 		tokenData = transferReq.ApplyOn(tokenData)
 		tokenData.OwnerType = OwnerTypeNetwork
