@@ -65,7 +65,11 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 	var tokenData TokenData
 	switch fcn {
 	case Fcn_putToken:
-		FromJson([]byte(params[1]), &tokenData) //TODO test empty params
+		FromJson([]byte(params[1]), &tokenData)
+		var tokenDataPtr = t.getToken(tokenID)
+		if tokenDataPtr != nil {
+			PanicString("token[" + tokenRaw + "] already exist")
+		}
 		t.putToken(clientID, tokenID, tokenData)
 	case Fcn_getToken:
 		var tokenDataPtr = t.getToken(tokenID)
@@ -73,6 +77,15 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 			break
 		}
 		responseBytes = ToJson(*tokenDataPtr)
+	case Fcn_renewToken:
+		var newExpiryTime = ParseTime(params[1])
+		var tokenDataPtr = t.getToken(tokenID)
+		if tokenDataPtr == nil {
+			PanicString("token[" + tokenRaw + "] not found:")
+		}
+		tokenData = *tokenDataPtr
+		tokenData.ExpiryDate = newExpiryTime
+		t.putToken(clientID, tokenID, tokenData)
 	case Fcn_tokenHistory:
 		responseBytes = t.history(tokenID)
 	case Fcn_deleteToken:
@@ -91,7 +104,7 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 		FromJson([]byte(params[1]), &transferReq)
 		var tokenDataPtr = t.getToken(tokenID)
 		if tokenDataPtr == nil {
-			PanicString("token not found:" + tokenRaw)
+			PanicString("token[" + tokenRaw + "] not found:")
 		}
 		tokenData = *tokenDataPtr
 		if tokenData.OwnerType != OwnerTypeMember {

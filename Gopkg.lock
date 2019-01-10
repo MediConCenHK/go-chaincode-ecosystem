@@ -22,11 +22,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:7f8748ff4a4d87e524a9d1e0057fb4ad15a9653e419293ff62b3b1db0a3227bb"
+  digest = "1:8b30b533abef74a8a9a4bb6c3fc65cf3943674b7b96b096de9c75f5ab82f908a"
   name = "github.com/MediConCenHK/go-chaincode-common"
   packages = ["."]
   pruneopts = "UT"
-  revision = "775434ea71f796b7831cad34ffe2821a13932103"
+  revision = "866b88b8331cf2655bc8a486d6c6ffb112f3bb8c"
 
 [[projects]]
   digest = "1:f9ae348e1f793dcf9ed930ed47136a67343dbd6809c5c91391322267f4476892"
@@ -54,25 +54,25 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:70684a8bd5a68e3ea2b690977b9e10f615f22fca04da2028a8ce7017be7d109d"
+  digest = "1:78e49e6277db8ff78f0e7ec13408e68a4e304bc41303bca3385a8788814b2c2c"
   name = "github.com/davidkhala/fabric-common-chaincode-golang"
   packages = [
     ".",
     "cid",
   ]
   pruneopts = "UT"
-  revision = "b878e4e46504bd504cf3fef6dc207dc0929cd854"
+  revision = "3ab415812d78d84bc469b4b7a6d1d66b9e973dda"
 
 [[projects]]
   branch = "master"
-  digest = "1:42492fd0b40bacb072cf18a819d79929e8aa85d334c851094a5fde53d45deebf"
+  digest = "1:cc6ecc84c1ca91ae8975eb61b20f3e193e5fceefdfc47b5160a853fe2ba1617a"
   name = "github.com/davidkhala/goutils"
   packages = [
     ".",
     "crypto",
   ]
   pruneopts = "UT"
-  revision = "6e936dc5f777235088392061a85f2dedad27dd3d"
+  revision = "a753e368296de19b4da03c6de40b119ec9ff13ef"
 
 [[projects]]
   digest = "1:49a2a779b1af8f02547b5a505eb1382f9d42299ec7215f34a32535e6af9a1c9e"
@@ -297,20 +297,20 @@
   version = "v0.1.1"
 
 [[projects]]
-  digest = "1:40e195917a951a8bf867cd05de2a46aaf1806c50cf92eebf4c16f78cd196f747"
+  digest = "1:cf31692c14422fa27c83a05292eb5cbe0fb2775972e8f1f8446a71549bd8980b"
   name = "github.com/pkg/errors"
   packages = ["."]
   pruneopts = "UT"
-  revision = "645ef00459ed84a119197bfb8d8205042c6df63d"
-  version = "v0.8.0"
+  revision = "ba968bfe8b2f7e042a574c888954fccecfa385b4"
+  version = "v0.8.1"
 
 [[projects]]
-  digest = "1:69b1cc331fca23d702bd72f860c6a647afd0aa9fcbc1d0659b1365e26546dd70"
+  digest = "1:87c2e02fb01c27060ccc5ba7c5a407cc91147726f8f40b70cceeedbc52b1f3a8"
   name = "github.com/sirupsen/logrus"
   packages = ["."]
   pruneopts = "UT"
-  revision = "bcd833dfe83d3cebad139e4a29ed79cb2318bf95"
-  version = "v1.2.0"
+  revision = "e1e72e9de974bd926e5c56f83753fba2df402ce5"
+  version = "v1.3.0"
 
 [[projects]]
   digest = "1:08d65904057412fc0270fc4812a1c90c594186819243160dc779a402d4b6d0bc"
@@ -377,14 +377,14 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:89c56c4bcd18aa1846cac96053b5a6f5bc8231e27b6963df24a1de61f2f225f3"
+  digest = "1:79c0cc65a52d3c366944549e30b57543cb7c9752bda66d57bd79c57ecfc71246"
   name = "golang.org/x/crypto"
   packages = [
     "sha3",
     "ssh/terminal",
   ]
   pruneopts = "UT"
-  revision = "505ab145d0a99da450461ae2c1a9f6cd10d1f447"
+  revision = "ff983b9c42bc9fbf91556e191cc8efb585c16908"
 
 [[projects]]
   branch = "master"
@@ -400,18 +400,18 @@
     "trace",
   ]
   pruneopts = "UT"
-  revision = "927f97764cc334a6575f4b7a1584a147864d5723"
+  revision = "be1c187aa6c66b9daa1d9461c228d17e9dd2cab7"
 
 [[projects]]
   branch = "master"
-  digest = "1:10405139b45e3a97a3842c93984710e30466eb933545f219ad3f5e45246973b4"
+  digest = "1:5ee4df7ab18e945607ac822de8d10b180baea263b5e8676a1041727543b9c1e4"
   name = "golang.org/x/sys"
   packages = [
     "unix",
     "windows",
   ]
   pruneopts = "UT"
-  revision = "9a3f9b0469bbc6b8802087ae5c0af9f61502de01"
+  revision = "48ac38b7c8cbedd50b1613c0fccacfc7d88dfcdf"
 
 [[projects]]
   digest = "1:a2ab62866c75542dd18d2b069fec854577a20211d7c0ea6ae746072a1dccdd18"
@@ -442,7 +442,7 @@
   name = "google.golang.org/genproto"
   packages = ["googleapis/rpc/status"]
   pruneopts = "UT"
-  revision = "bd9b4fb69e2ffd37621a6caa54dcbead29b546f2"
+  revision = "ae2f86662275e140f395167f1dab7081a5bd5fa8"
 
 [[projects]]
   digest = "1:2dab32a43451e320e49608ff4542fdfc653c95dcc35d0065ec9c6c3dd540ed74"
