@@ -24,10 +24,7 @@ func (t GlobalChaincode) Init(stub shim.ChaincodeStubInterface) (response peer.R
 	return shim.Success(nil)
 }
 func (t GlobalChaincode) putToken(cid ClientIdentity, tokenID string, tokenData TokenData) {
-	var transient = t.GetTransient()
-	t.InsuranceAuth.Exec(transient)
 	tokenData.Client = cid
-	tokenData.OwnerType = OwnerTypeMember
 	t.PutStateObj(tokenID, tokenData)
 }
 func (t GlobalChaincode) getToken(token string) *TokenData {
@@ -67,9 +64,11 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 	case Fcn_putToken:
 		FromJson([]byte(params[1]), &tokenData)
 		var tokenDataPtr = t.getToken(tokenID)
+		//fixme identity verification
 		if tokenDataPtr != nil {
 			PanicString("token[" + tokenRaw + "] already exist")
 		}
+		tokenData.TokenType = OwnerTypeMember
 		t.putToken(clientID, tokenID, tokenData)
 	case Fcn_getToken:
 		var tokenDataPtr = t.getToken(tokenID)
