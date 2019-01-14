@@ -68,7 +68,7 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 		if tokenDataPtr != nil {
 			PanicString("token[" + tokenRaw + "] already exist")
 		}
-		tokenData.TokenType = OwnerTypeMember
+		tokenData.OwnerType = OwnerTypeMember
 		t.putToken(clientID, tokenID, tokenData)
 	case Fcn_getToken:
 		var tokenDataPtr = t.getToken(tokenID)
