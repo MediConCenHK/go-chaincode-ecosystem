@@ -36,10 +36,7 @@ func (t GlobalChaincode) getToken(token string) *TokenData {
 	return &tokenData
 }
 func (t GlobalChaincode) history(token string) []byte {
-	var filter = func(modification interface{}) bool {
-		return true
-	}
-	var history = ParseHistory(t.GetHistoryForKey(token), filter)
+	var history = ParseHistory(t.GetHistoryForKey(token), nil)
 	return ToJson(history)
 
 }
