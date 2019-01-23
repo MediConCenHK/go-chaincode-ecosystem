@@ -7,6 +7,7 @@ import (
 	. "github.com/davidkhala/goutils"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	"github.com/hyperledger/fabric/protos/peer"
+	"strings"
 )
 
 type GlobalChaincode struct {
@@ -60,13 +61,17 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 	switch fcn {
 	case Fcn_putToken:
 		FromJson([]byte(params[1]), &tokenData)
+		epOrgMspId := string([]byte(params[2]))
 		var tokenDataPtr = t.getToken(tokenID)
 		//fixme identity verification
 		if tokenDataPtr != nil {
 			PanicString("token[" + tokenRaw + "] already exist")
 		}
 		tokenData.OwnerType = OwnerTypeMember
+		tokenData.TransferDate = TimeLong(0)
 		t.putToken(clientID, tokenID, tokenData)
+		t.addEPOrgsForKey(tokenID, []string{epOrgMspId})
+
 	case Fcn_getToken:
 		var tokenDataPtr = t.getToken(tokenID)
 		if tokenDataPtr == nil {
@@ -98,6 +103,8 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 		var transferReq TokenTransferRequest
 
 		FromJson([]byte(params[1]), &transferReq)
+		epOrgMspId := string([]byte(params[2]))
+
 		var tokenDataPtr = t.getToken(tokenID)
 		if tokenDataPtr == nil {
 			PanicString("token[" + tokenRaw + "] not found:")
@@ -106,9 +113,24 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 		if tokenData.OwnerType != OwnerTypeMember {
 			PanicString("original token OwnerType should be member, but got " + tokenData.OwnerType.To())
 		}
+		if tokenData.TransferDate != TimeLong(0) {
+			PanicString("token already transferred")
+		}
+		if transferReq.OwnerType != OwnerTypeNetwork {
+			PanicString("token must be transferred to [network] type, but got " + transferReq.OwnerType.To())
+		}
+
 		tokenData = transferReq.ApplyOn(tokenData)
 		tokenData.OwnerType = OwnerTypeNetwork
+		tokenData.TransferDate = UnixMilliSecond(t.GetTxTime())
+		tokenData.MetaData = transferReq.MetaData
 		t.putToken(clientID, tokenID, tokenData)
+		t.addEPOrgsForKey(tokenID, []string{epOrgMspId})
+
+	case Fcn_listTokenEPOrgs:
+		orgs := t.listOrgsForKeyEP(tokenID)
+		responseBytes = []byte(strings.Join(orgs, ", "))
+
 	default:
 		PanicString("unknown fcn:" + fcn)
 	}
