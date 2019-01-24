@@ -61,7 +61,6 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 	switch fcn {
 	case Fcn_putToken:
 		FromJson([]byte(params[1]), &tokenData)
-		epOrgMspId := string([]byte(params[2]))
 		var tokenDataPtr = t.getToken(tokenID)
 		//fixme identity verification
 		if tokenDataPtr != nil {
@@ -70,7 +69,7 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 		tokenData.OwnerType = OwnerTypeMember
 		tokenData.TransferDate = TimeLong(0)
 		t.putToken(clientID, tokenID, tokenData)
-		t.addEPOrgsForKey(tokenID, []string{epOrgMspId})
+		t.addEPOrgsForKey(tokenID, []string{tokenData.Manager})
 
 	case Fcn_getToken:
 		var tokenDataPtr = t.getToken(tokenID)
@@ -103,7 +102,6 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 		var transferReq TokenTransferRequest
 
 		FromJson([]byte(params[1]), &transferReq)
-		epOrgMspId := string([]byte(params[2]))
 
 		var tokenDataPtr = t.getToken(tokenID)
 		if tokenDataPtr == nil {
@@ -116,16 +114,13 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 		if tokenData.TransferDate != TimeLong(0) {
 			PanicString("token already transferred")
 		}
-		if transferReq.OwnerType != OwnerTypeNetwork {
-			PanicString("token must be transferred to [network] type, but got " + transferReq.OwnerType.To())
-		}
 
 		tokenData = transferReq.ApplyOn(tokenData)
 		tokenData.OwnerType = OwnerTypeNetwork
 		tokenData.TransferDate = UnixMilliSecond(t.GetTxTime())
 		tokenData.MetaData = transferReq.MetaData
 		t.putToken(clientID, tokenID, tokenData)
-		t.addEPOrgsForKey(tokenID, []string{epOrgMspId})
+		t.addEPOrgsForKey(tokenID, []string{tokenData.Manager})
 
 	case Fcn_listTokenEPOrgs:
 		orgs := t.listOrgsForKeyEP(tokenID)

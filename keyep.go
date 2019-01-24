@@ -16,11 +16,7 @@ func (t GlobalChaincode) addEPOrgsForKey(key string, orgs []string) {
 	// get the endorsement policy for the key
 	var epBytes []byte
 	var err error
-	epBytes, err = t.CCAPI.GetStateValidationParameter(key)
-
-	if err != nil {
-		PanicString("failed to set key [" + key + "], err: " + err.Error())
-	}
+	epBytes = t.GetStateValidationParameter(key)
 
 	ep, err := statebased.NewStateEP(epBytes)
 	if err != nil {
@@ -39,10 +35,7 @@ func (t GlobalChaincode) addEPOrgsForKey(key string, orgs []string) {
 	}
 
 	// set the modified endorsement policy for the key
-	err = t.CCAPI.SetStateValidationParameter(key, epBytes)
-	if err != nil {
-		PanicString("failed to set key [" + key + "], err: " + err.Error())
-	}
+	t.SetStateValidationParameter(key, epBytes)
 
 	t.Logger.Info("Successfully add orgs for EP of key [", key, "], orgs: ", orgs)
 
