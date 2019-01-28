@@ -21,12 +21,20 @@
   version = "v0.3.1"
 
 [[projects]]
+  digest = "1:5d3e23515e7916c152cc665eda0f7eaf6fdf8fdfe7c3dbac97049bcbd649b33f"
+  name = "github.com/Knetic/govaluate"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "d216395917cc49052c7c7094cf57f09657ca08a8"
+  version = "v3.0.0"
+
+[[projects]]
   branch = "master"
-  digest = "1:8b30b533abef74a8a9a4bb6c3fc65cf3943674b7b96b096de9c75f5ab82f908a"
+  digest = "1:ce399994394a37d0ad81392863bcfa3b0a86e89fc64b7c6223e854124d2ad213"
   name = "github.com/MediConCenHK/go-chaincode-common"
   packages = ["."]
   pruneopts = "UT"
-  revision = "866b88b8331cf2655bc8a486d6c6ffb112f3bb8c"
+  revision = "3cf0efe6a0fbb8ea44292432ed707636f23f288e"
 
 [[projects]]
   digest = "1:f9ae348e1f793dcf9ed930ed47136a67343dbd6809c5c91391322267f4476892"
@@ -54,25 +62,25 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:62518138c896147d981f0366239a4c2ed43676178a189bd0069b952a5efea86c"
+  digest = "1:eff02453765b2cd4d6b1e0964d250ba896a3dfb28c54e947228d2ad84bb8f5c5"
   name = "github.com/davidkhala/fabric-common-chaincode-golang"
   packages = [
     ".",
     "cid",
   ]
   pruneopts = "UT"
-  revision = "6550e02a35a6ee8632e82eb4a7f86707e04a88a1"
+  revision = "7aebbc3c96932c3c65fd7191726fa19f13929e47"
 
 [[projects]]
   branch = "master"
-  digest = "1:cc6ecc84c1ca91ae8975eb61b20f3e193e5fceefdfc47b5160a853fe2ba1617a"
+  digest = "1:f7cd5a23fa1e730d82a4a27eb2352dfd9b05cdafe485d9affab95e8c062429b5"
   name = "github.com/davidkhala/goutils"
   packages = [
     ".",
     "crypto",
   ]
   pruneopts = "UT"
-  revision = "aece9bee0f89c0a64d3239fc2e7f075cdba90f68"
+  revision = "ee1959a49a01a4a199766753b03a711df3bb2e1d"
 
 [[projects]]
   digest = "1:49a2a779b1af8f02547b5a505eb1382f9d42299ec7215f34a32535e6af9a1c9e"
@@ -163,26 +171,34 @@
   version = "v1.0.0"
 
 [[projects]]
-  branch = "release-1.3"
-  digest = "1:187e0ea7a1d33df07219adf86ca3cdab78539629ecda02be896f598839f2fc8d"
+  branch = "release-1.4"
+  digest = "1:2214f8d2495b3149688847e217d0a5702262ecbc17cf14085d582a4a0475266f"
   name = "github.com/hyperledger/fabric"
   packages = [
     "bccsp",
     "bccsp/factory",
+    "bccsp/idemix",
+    "bccsp/idemix/bridge",
+    "bccsp/idemix/handlers",
     "bccsp/pkcs11",
     "bccsp/signer",
     "bccsp/sw",
     "bccsp/utils",
     "common/attrmgr",
+    "common/cauthdsl",
     "common/crypto",
     "common/flogging",
     "common/flogging/fabenc",
     "common/ledger",
     "common/metadata",
+    "common/metrics",
+    "common/policies",
+    "common/semaphore",
     "common/util",
     "core/chaincode/platforms",
     "core/chaincode/platforms/ccmetadata",
     "core/chaincode/shim",
+    "core/chaincode/shim/ext/statebased",
     "core/comm",
     "core/config",
     "core/container/util",
@@ -194,10 +210,11 @@
     "protos/ledger/rwset/kvrwset",
     "protos/msp",
     "protos/peer",
+    "protos/token",
     "protos/utils",
   ]
   pruneopts = "UT"
-  revision = "80c6f6ba22b002eab3945fd4ea09d9cd303eb550"
+  revision = "c74ccd3ffe718c7f6e3b7b76c5acac288f7dcd44"
 
 [[projects]]
   branch = "master"
@@ -384,7 +401,7 @@
     "ssh/terminal",
   ]
   pruneopts = "UT"
-  revision = "ff983b9c42bc9fbf91556e191cc8efb585c16908"
+  revision = "057139ce5d2bdbe6fe73c53679e24e9cf007f637"
 
 [[projects]]
   branch = "master"
@@ -400,18 +417,18 @@
     "trace",
   ]
   pruneopts = "UT"
-  revision = "ed066c81e75eba56dd9bd2139ade88125b855585"
+  revision = "d26f9f9a57f3fab6a695bec0d84433c2c50f8bbf"
 
 [[projects]]
   branch = "master"
-  digest = "1:43cde116ff48f299eddb7e6515677e6d0a2c915854bb05a333877f07c3bb3033"
+  digest = "1:bb644db32f5bc1e327a0f748ec871edc4dc46f19b4fbbc15bfd95b1460646537"
   name = "golang.org/x/sys"
   packages = [
     "unix",
     "windows",
   ]
   pruneopts = "UT"
-  revision = "11f53e03133963fb11ae0588e08b5e0b85be8be5"
+  revision = "b90733256f2e882e81d52f9126de08df5615afd9"
 
 [[projects]]
   digest = "1:a2ab62866c75542dd18d2b069fec854577a20211d7c0ea6ae746072a1dccdd18"
@@ -442,10 +459,10 @@
   name = "google.golang.org/genproto"
   packages = ["googleapis/rpc/status"]
   pruneopts = "UT"
-  revision = "db91494dd46c1fdcbbde05e5ff5eb56df8f7d79a"
+  revision = "aa24cbd621fe1e2867110ea8c673d99a1a92efdc"
 
 [[projects]]
-  digest = "1:2dab32a43451e320e49608ff4542fdfc653c95dcc35d0065ec9c6c3dd540ed74"
+  digest = "1:ab8e92d746fb5c4c18846b0879842ac8e53b3d352449423d0924a11f1020ae1b"
   name = "google.golang.org/grpc"
   packages = [
     ".",
@@ -461,7 +478,9 @@
     "internal",
     "internal/backoff",
     "internal/channelz",
+    "internal/envconfig",
     "internal/grpcrand",
+    "internal/transport",
     "keepalive",
     "metadata",
     "naming",
@@ -472,11 +491,10 @@
     "stats",
     "status",
     "tap",
-    "transport",
   ]
   pruneopts = "UT"
-  revision = "168a6198bcb0ef175f7dacec0b8691fc141dc9b8"
-  version = "v1.13.0"
+  revision = "8dea3dc473e90c8179e519d91302d0597c0ca1d1"
+  version = "v1.15.0"
 
 [[projects]]
   digest = "1:4d2e5a73dc1500038e504a8d78b986630e3626dc027bc030ba5c75da257cdb96"
@@ -496,6 +514,7 @@
     "github.com/davidkhala/goutils",
     "github.com/davidkhala/goutils/crypto",
     "github.com/hyperledger/fabric/core/chaincode/shim",
+    "github.com/hyperledger/fabric/core/chaincode/shim/ext/statebased",
     "github.com/hyperledger/fabric/protos/peer",
   ]
   solver-name = "gps-cdcl"
