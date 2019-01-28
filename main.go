@@ -94,8 +94,8 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 			break //not exist, swallow
 		}
 		tokenData = *tokenDataPtr
-		if clientID.Cert.Issuer.CommonName != tokenData.Manager { // allow manager to delete
-			PanicString("[" + tokenRaw + "]Token Data Manager(" + tokenData.Manager + ") mismatched with CID.Subject.CN:" + clientID.Cert.Issuer.CommonName)
+		if NewClientIdentity(t.CCAPI).MspID != tokenData.Manager {
+			PanicString("[" + tokenRaw + "]Token Data Manager(" + tokenData.Manager + ") mismatched with tx creator MspID: " + NewClientIdentity(t.CCAPI).MspID)
 		}
 		t.DelState(tokenID)
 	case Fcn_moveToken:
