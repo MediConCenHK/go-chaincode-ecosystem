@@ -4,10 +4,11 @@ import (
 	. "github.com/MediConCenHK/go-chaincode-common"
 	. "github.com/davidkhala/fabric-common-chaincode-golang"
 	. "github.com/davidkhala/fabric-common-chaincode-golang/cid"
+	"github.com/davidkhala/fabric-common-chaincode-golang/ext"
 	. "github.com/davidkhala/goutils"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
+	"github.com/hyperledger/fabric/protos/msp"
 	"github.com/hyperledger/fabric/protos/peer"
-	"strings"
 )
 
 type GlobalChaincode struct {
@@ -69,7 +70,11 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 		tokenData.OwnerType = OwnerTypeMember
 		tokenData.TransferDate = TimeLong(0)
 		t.putToken(clientID, tokenID, tokenData)
-		t.addEPOrgsForKey(tokenID, []string{tokenData.Manager})
+		var keyPolicy = ext.NewKeyEndorsementPolicy(nil)
+
+		keyPolicy.AddOrgs(msp.MSPRole_MEMBER, clientID.MspID)
+
+		t.SetStateValidationParameter(tokenID, keyPolicy.Policy())
 
 	case Fcn_getToken:
 		var tokenDataPtr = t.getToken(tokenID)
@@ -94,8 +99,8 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 			break //not exist, swallow
 		}
 		tokenData = *tokenDataPtr
-		if NewClientIdentity(t.CCAPI).MspID != tokenData.Manager {
-			PanicString("[" + tokenRaw + "]Token Data Manager(" + tokenData.Manager + ") mismatched with tx creator MspID: " + NewClientIdentity(t.CCAPI).MspID)
+		if clientID.MspID != tokenData.Manager {
+			PanicString("[" + tokenRaw + "]Token Data Manager(" + tokenData.Manager + ") mismatched with tx creator MspID: " + clientID.MspID)
 		}
 		t.DelState(tokenID)
 	case Fcn_moveToken:
@@ -120,12 +125,10 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 		tokenData.TransferDate = UnixMilliSecond(t.GetTxTime())
 		tokenData.MetaData = transferReq.MetaData
 		t.putToken(clientID, tokenID, tokenData)
-		t.addEPOrgsForKey(tokenID, []string{tokenData.Manager})
-
-	case Fcn_listTokenEPOrgs:
-		orgs := t.listOrgsForKeyEP(tokenID)
-		responseBytes = []byte(strings.Join(orgs, ", "))
-
+		var keyPolicyBytes = t.GetStateValidationParameter(tokenID)
+		var keyPolicy = ext.NewKeyEndorsementPolicy(keyPolicyBytes)
+		keyPolicy.AddOrgs(msp.MSPRole_MEMBER, clientID.MspID)
+		t.SetStateValidationParameter(tokenID, keyPolicy.Policy())
 	default:
 		PanicString("unknown fcn:" + fcn)
 	}
