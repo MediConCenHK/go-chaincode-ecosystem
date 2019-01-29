@@ -151,5 +151,5 @@ func main() {
 		return true
 	}
 	cc.SetLogger(GlobalCCID)
-	shim.Start(cc)
+	ChaincodeStart(cc)
 }
