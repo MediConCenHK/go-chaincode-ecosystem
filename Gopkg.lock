@@ -30,11 +30,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:ce399994394a37d0ad81392863bcfa3b0a86e89fc64b7c6223e854124d2ad213"
+  digest = "1:e2ff839e14246d5a6899eeef42643d9e782ab83fb659ef4497b274c7a0cdfbaa"
   name = "github.com/MediConCenHK/go-chaincode-common"
   packages = ["."]
   pruneopts = "UT"
-  revision = "3cf0efe6a0fbb8ea44292432ed707636f23f288e"
+  revision = "3da6178c96ef0de3e2b404819b36704899f55f04"
 
 [[projects]]
   digest = "1:f9ae348e1f793dcf9ed930ed47136a67343dbd6809c5c91391322267f4476892"
@@ -62,7 +62,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:615b4d5a2be86fd80c9c0a9fca2feb3394d7b951ddace228c302deba7afc806d"
+  digest = "1:1af874b45fe92e90c181aa991ae0d30d549422afaa0ea7f1b2f0c7a23ad2f174"
   name = "github.com/davidkhala/fabric-common-chaincode-golang"
   packages = [
     ".",
@@ -70,18 +70,18 @@
     "ext",
   ]
   pruneopts = "UT"
-  revision = "7aebbc3c96932c3c65fd7191726fa19f13929e47"
+  revision = "fc8ef3ed03f293af5336aeae6dc17336e3dcd65f"
 
 [[projects]]
   branch = "master"
-  digest = "1:f7cd5a23fa1e730d82a4a27eb2352dfd9b05cdafe485d9affab95e8c062429b5"
+  digest = "1:2ce6dfe3870aa15c5335acf6b454213ffd008de409daa38639fb84075b662fb9"
   name = "github.com/davidkhala/goutils"
   packages = [
     ".",
     "crypto",
   ]
   pruneopts = "UT"
-  revision = "ee1959a49a01a4a199766753b03a711df3bb2e1d"
+  revision = "7f7d5ebab1b8586f9b058e9011b81ed8a32ba37c"
 
 [[projects]]
   digest = "1:49a2a779b1af8f02547b5a505eb1382f9d42299ec7215f34a32535e6af9a1c9e"
@@ -519,7 +519,6 @@
     "github.com/davidkhala/goutils",
     "github.com/davidkhala/goutils/crypto",
     "github.com/hyperledger/fabric/core/chaincode/shim",
-    "github.com/hyperledger/fabric/core/chaincode/shim/ext/statebased",
     "github.com/hyperledger/fabric/protos/msp",
     "github.com/hyperledger/fabric/protos/peer",
   ]
