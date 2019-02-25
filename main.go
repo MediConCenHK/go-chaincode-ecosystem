@@ -109,14 +109,14 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 
 		var tokenDataPtr = t.getToken(tokenID)
 		if tokenDataPtr == nil {
-			panicEcosystem("token[" + tokenRaw + "] not found:")
+			panicEcosystem("token[" + tokenRaw + "] not found")
 		}
 		tokenData = *tokenDataPtr
 		if tokenData.OwnerType != OwnerTypeMember {
 			panicEcosystem("original token OwnerType should be member, but got " + tokenData.OwnerType.To())
 		}
 		if tokenData.TransferDate != TimeLong(0) {
-			panicEcosystem("token already transferred")
+			panicEcosystem("token["+tokenRaw+"] was transferred")
 		}
 
 		tokenData = transferReq.ApplyOn(tokenData)
