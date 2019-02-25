@@ -63,7 +63,6 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 	case Fcn_putToken:
 		FromJson([]byte(params[1]), &tokenData)
 		var tokenDataPtr = t.getToken(tokenID)
-		//fixme identity verification
 		if tokenDataPtr != nil {
 			PanicString("token[" + tokenRaw + "] already exist")
 		}
@@ -86,7 +85,7 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 		var newExpiryTime = ParseTime(params[1])
 		var tokenDataPtr = t.getToken(tokenID)
 		if tokenDataPtr == nil {
-			PanicString("token[" + tokenRaw + "] not found:")
+			PanicString("token[" + tokenRaw + "] not found")
 		}
 		tokenData = *tokenDataPtr
 		tokenData.ExpiryDate = newExpiryTime
