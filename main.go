@@ -54,7 +54,7 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 	var responseBytes []byte
 	var tokenRaw = params[0]
 	if tokenRaw == "" {
-		PanicString("param:token is empty")
+		panicEcosystem("param:token is empty")
 	}
 	var tokenID = Hash([]byte(tokenRaw))
 
@@ -64,7 +64,7 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 		FromJson([]byte(params[1]), &tokenData)
 		var tokenDataPtr = t.getToken(tokenID)
 		if tokenDataPtr != nil {
-			PanicString("token[" + tokenRaw + "] already exist")
+			panicEcosystem("token[" + tokenRaw + "] already exist")
 		}
 		tokenData.OwnerType = OwnerTypeMember
 		tokenData.TransferDate = TimeLong(0)
@@ -85,7 +85,7 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 		var newExpiryTime = ParseTime(params[1])
 		var tokenDataPtr = t.getToken(tokenID)
 		if tokenDataPtr == nil {
-			PanicString("token[" + tokenRaw + "] not found")
+			panicEcosystem("token[" + tokenRaw + "] not found")
 		}
 		tokenData = *tokenDataPtr
 		tokenData.ExpiryDate = newExpiryTime
@@ -99,7 +99,7 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 		}
 		tokenData = *tokenDataPtr
 		if clientID.MspID != tokenData.Manager {
-			PanicString("[" + tokenRaw + "]Token Data Manager(" + tokenData.Manager + ") mismatched with tx creator MspID: " + clientID.MspID)
+			panicEcosystem("[" + tokenRaw + "]Token Data Manager(" + tokenData.Manager + ") mismatched with tx creator MspID: " + clientID.MspID)
 		}
 		t.DelState(tokenID)
 	case Fcn_moveToken:
@@ -109,14 +109,14 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 
 		var tokenDataPtr = t.getToken(tokenID)
 		if tokenDataPtr == nil {
-			PanicString("token[" + tokenRaw + "] not found:")
+			panicEcosystem("token[" + tokenRaw + "] not found:")
 		}
 		tokenData = *tokenDataPtr
 		if tokenData.OwnerType != OwnerTypeMember {
-			PanicString("original token OwnerType should be member, but got " + tokenData.OwnerType.To())
+			panicEcosystem("original token OwnerType should be member, but got " + tokenData.OwnerType.To())
 		}
 		if tokenData.TransferDate != TimeLong(0) {
-			PanicString("token already transferred")
+			panicEcosystem("token already transferred")
 		}
 
 		tokenData = transferReq.ApplyOn(tokenData)
@@ -129,7 +129,7 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 		keyPolicy.AddOrgs(msp.MSPRole_MEMBER, clientID.MspID)
 		t.SetStateValidationParameter(tokenID, keyPolicy.Policy())
 	default:
-		PanicString("unknown fcn:" + fcn)
+		panicEcosystem("unknown fcn:" + fcn)
 	}
 	t.Logger.Debug("response", string(responseBytes))
 	return shim.Success(responseBytes)
