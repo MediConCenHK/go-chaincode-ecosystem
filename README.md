@@ -1,1 +1,1 @@
-# go-chaincode-world
+# go-chaincode-global
