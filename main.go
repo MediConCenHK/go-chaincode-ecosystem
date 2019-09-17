@@ -13,10 +13,6 @@ import (
 
 type GlobalChaincode struct {
 	CommonChaincode
-	ClinicAuth
-	NetworkAuth
-	MemberAuth
-	InsuranceAuth
 }
 
 func (t GlobalChaincode) Init(stub shim.ChaincodeStubInterface) (response peer.Response) {
@@ -32,7 +28,7 @@ func (t GlobalChaincode) putToken(cid ClientIdentity, tokenID string, tokenData 
 func (t GlobalChaincode) getToken(token string) *TokenData {
 	var tokenData TokenData
 	var exist = t.GetStateObj(token, &tokenData)
-	if ! exist {
+	if !exist {
 		return nil
 	}
 	return &tokenData
@@ -54,17 +50,17 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 	var responseBytes []byte
 	var tokenRaw = params[0]
 	if tokenRaw == "" {
-		panicEcosystem("token","param:token is empty")
+		panicEcosystem("token", "param:token is empty")
 	}
 	var tokenID = Hash([]byte(tokenRaw))
 
 	var tokenData TokenData
 	switch fcn {
-	case Fcn_putToken:
+	case FcnPutToken:
 		FromJson([]byte(params[1]), &tokenData)
 		var tokenDataPtr = t.getToken(tokenID)
 		if tokenDataPtr != nil {
-			panicEcosystem("token","token[" + tokenRaw + "] already exist")
+			panicEcosystem("token", "token["+tokenRaw+"] already exist")
 		}
 		tokenData.OwnerType = OwnerTypeMember
 		tokenData.TransferDate = TimeLong(0)
@@ -75,13 +71,13 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 
 		t.SetStateValidationParameter(tokenID, keyPolicy.Policy())
 
-	case Fcn_getToken:
+	case FcnGetToken:
 		var tokenDataPtr = t.getToken(tokenID)
 		if tokenDataPtr == nil {
 			break
 		}
 		responseBytes = ToJson(*tokenDataPtr)
-	case Fcn_renewToken:
+	case FcnRenewToken:
 		var newExpiryTime = ParseTime(params[1])
 		var tokenDataPtr = t.getToken(tokenID)
 		if tokenDataPtr == nil {
@@ -90,9 +86,9 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 		tokenData = *tokenDataPtr
 		tokenData.ExpiryDate = newExpiryTime
 		t.putToken(clientID, tokenID, tokenData)
-	case Fcn_tokenHistory:
+	case FcnTokenHistory:
 		responseBytes = t.history(tokenID)
-	case Fcn_deleteToken:
+	case FcnDeleteToken:
 		var tokenDataPtr = t.getToken(tokenID)
 		if tokenDataPtr == nil {
 			break //not exist, swallow
@@ -102,7 +98,7 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 			panicEcosystem("CID", "["+tokenRaw+"]Token Data Manager("+tokenData.Manager+") mismatched with tx creator MspID: "+clientID.MspID)
 		}
 		t.DelState(tokenID)
-	case Fcn_moveToken:
+	case FcnMoveToken:
 		var transferReq TokenTransferRequest
 
 		FromJson([]byte(params[1]), &transferReq)
@@ -137,18 +133,6 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 
 func main() {
 	var cc = GlobalChaincode{}
-	cc.ClinicAuth = func(transient map[string][]byte) bool {
-		return true
-	}
-	cc.InsuranceAuth = func(transient map[string][]byte) bool {
-		return true
-	}
-	cc.NetworkAuth = func(transient map[string][]byte) bool {
-		return true
-	}
-	cc.MemberAuth = func(transient map[string][]byte) bool {
-		return true
-	}
 	cc.SetLogger(GlobalCCID)
 	ChaincodeStart(cc)
 }
