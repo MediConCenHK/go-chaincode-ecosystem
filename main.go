@@ -65,6 +65,7 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 		}
 		tokenData.OwnerType = OwnerTypeMember
 		tokenData.TransferDate = TimeLong(0)
+		tokenData.Issuer = MspID
 		tokenData.Manager = MspID
 		tokenData.IssuerClient = clientID
 		t.putToken(clientID, tokenID, tokenData)
