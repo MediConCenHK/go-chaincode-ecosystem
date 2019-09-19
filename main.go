@@ -47,6 +47,7 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 	t.Logger.Info("Invoke:fcn", fcn)
 	t.Logger.Debug("Invoke:params", params)
 	var clientID = NewClientIdentity(stub)
+	var MspID = clientID.MspID
 	var responseBytes []byte
 	var tokenRaw = params[0]
 	if tokenRaw == "" {
@@ -64,10 +65,12 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 		}
 		tokenData.OwnerType = OwnerTypeMember
 		tokenData.TransferDate = TimeLong(0)
+		tokenData.Manager = MspID
+		tokenData.IssuerClient = clientID
 		t.putToken(clientID, tokenID, tokenData)
 		var keyPolicy = ext.NewKeyEndorsementPolicy(nil)
 
-		keyPolicy.AddOrgs(msp.MSPRole_MEMBER, clientID.MspID)
+		keyPolicy.AddOrgs(msp.MSPRole_MEMBER, MspID)
 
 		t.SetStateValidationParameter(tokenID, keyPolicy.Policy())
 
@@ -91,11 +94,11 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 	case FcnDeleteToken:
 		var tokenDataPtr = t.getToken(tokenID)
 		if tokenDataPtr == nil {
-			break //not exist, swallow
+			break // not exist, swallow
 		}
 		tokenData = *tokenDataPtr
-		if clientID.MspID != tokenData.Manager {
-			panicEcosystem("CID", "["+tokenRaw+"]Token Data Manager("+tokenData.Manager+") mismatched with tx creator MspID: "+clientID.MspID)
+		if MspID != tokenData.Manager {
+			panicEcosystem("CID", "["+tokenRaw+"]Token Data Manager("+tokenData.Manager+") mismatched with tx creator MspID: "+MspID)
 		}
 		t.DelState(tokenID)
 	case FcnMoveToken:
@@ -116,13 +119,13 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 		}
 
 		tokenData = transferReq.ApplyOn(tokenData)
+		tokenData.Manager = MspID
 		tokenData.OwnerType = OwnerTypeNetwork
 		tokenData.TransferDate = UnixMilliSecond(t.GetTxTime())
-		tokenData.MetaData = transferReq.MetaData
 		t.putToken(clientID, tokenID, tokenData)
 		var keyPolicyBytes = t.GetStateValidationParameter(tokenID)
 		var keyPolicy = ext.NewKeyEndorsementPolicy(keyPolicyBytes)
-		keyPolicy.AddOrgs(msp.MSPRole_MEMBER, clientID.MspID)
+		keyPolicy.AddOrgs(msp.MSPRole_MEMBER, MspID)
 		t.SetStateValidationParameter(tokenID, keyPolicy.Policy())
 	default:
 		panicEcosystem("unknown", "unknown fcn:"+fcn)
