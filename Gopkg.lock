@@ -30,11 +30,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:aebed7bf9b6481b3df52c63dc77ea04eb8e538e05c4256f5b5cf34a0c7cc1cfe"
+  digest = "1:0311eb6ff992f9fd2f2d0cb2627ab1e051932cffbdfe6cced7e49878b2eb40e2"
   name = "github.com/MediConCenHK/go-chaincode-common"
   packages = ["."]
   pruneopts = "UT"
-  revision = "d419472026a0c7be706f727cb3e3cb9e4ccba2dd"
+  revision = "e9679ae0c41d01668d01738dc8e67d3f546e0a15"
 
 [[projects]]
   digest = "1:d5e752c67b445baa5b6cb6f8aa706775c2aa8e41aca95a0c651520ff2c80361a"
@@ -221,7 +221,7 @@
     "protos/utils",
   ]
   pruneopts = "UT"
-  revision = "6cfdc7d87c4fcb522e4bad249723a89ff2494408"
+  revision = "fcfd12e5f361f75e9c13761df67c32cfd08c49d4"
 
 [[projects]]
   branch = "master"
@@ -413,7 +413,7 @@
   name = "golang.org/x/crypto"
   packages = ["sha3"]
   pruneopts = "UT"
-  revision = "227b76d455e791cb042b03e633e2f7fbcfdf74a5"
+  revision = "9ee001bba392397c76f100a2d5b13afc86f167f1"
 
 [[projects]]
   branch = "master"
@@ -429,11 +429,11 @@
     "trace",
   ]
   pruneopts = "UT"
-  revision = "a8b05e9114ab0cb08faec337c959aed24b68bf50"
+  revision = "1a5e07d1ff72da30f660d3c95b312a20be31173c"
 
 [[projects]]
   branch = "master"
-  digest = "1:cef0763cedef8416ca6f6f13fa1aadd064736a730f056a7aac30b3b03a82990a"
+  digest = "1:bc63533a3e3dfb2e7b8b4b73581509ee32907f5c996a42b34f7de14a37a87a1c"
   name = "golang.org/x/sys"
   packages = [
     "cpu",
@@ -441,7 +441,7 @@
     "windows",
   ]
   pruneopts = "UT"
-  revision = "b4ddaad3f8a36719f2b8bc6486c14cc468ca2bb5"
+  revision = "0a153f010e6963173baba2306531d173aa843137"
 
 [[projects]]
   digest = "1:8d8faad6b12a3a4c819a3f9618cb6ee1fa1cfc33253abeeea8b55336721e3405"

@@ -58,11 +58,13 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 	var tokenData TokenData
 	switch fcn {
 	case FcnPutToken:
-		FromJson([]byte(params[1]), &tokenData)
+		var createRequest TokenCreateRequest
+		FromJson([]byte(params[1]), &createRequest)
 		var tokenDataPtr = t.getToken(tokenID)
 		if tokenDataPtr != nil {
 			panicEcosystem("token", "token["+tokenRaw+"] already exist")
 		}
+		tokenData = createRequest.Build()
 		tokenData.OwnerType = OwnerTypeMember
 		tokenData.TransferDate = TimeLong(0)
 		tokenData.Issuer = MspID
