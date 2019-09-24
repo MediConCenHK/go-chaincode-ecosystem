@@ -56,8 +56,9 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 	var tokenID = Hash([]byte(tokenRaw))
 
 	var tokenData TokenData
+	var time TimeLong
 	switch fcn {
-	case FcnPutToken:
+	case FcnCreateToken:
 		var createRequest TokenCreateRequest
 		FromJson([]byte(params[1]), &createRequest)
 		var tokenDataPtr = t.getToken(tokenID)
@@ -84,7 +85,7 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 		}
 		responseBytes = ToJson(*tokenDataPtr)
 	case FcnRenewToken:
-		var newExpiryTime = ParseTime(params[1])
+		var newExpiryTime = time.FromString(params[1])
 		var tokenDataPtr = t.getToken(tokenID)
 		if tokenDataPtr == nil {
 			panicEcosystem("token", "token["+tokenRaw+"] not found")
@@ -124,7 +125,7 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 		tokenData = transferReq.ApplyOn(tokenData)
 		tokenData.Manager = MspID
 		tokenData.OwnerType = OwnerTypeNetwork
-		tokenData.TransferDate = UnixMilliSecond(t.GetTxTime())
+		tokenData.TransferDate = time.FromTimeStamp(t.GetTxTimestamp())
 		t.putToken(clientID, tokenID, tokenData)
 		var keyPolicyBytes = t.GetStateValidationParameter(tokenID)
 		var keyPolicy = ext.NewKeyEndorsementPolicy(keyPolicyBytes)
