@@ -30,11 +30,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:0311eb6ff992f9fd2f2d0cb2627ab1e051932cffbdfe6cced7e49878b2eb40e2"
+  digest = "1:6d43e27af867756429dadcd308852404804940b6c8ebee9bbb61ee9d5189ea31"
   name = "github.com/MediConCenHK/go-chaincode-common"
   packages = ["."]
   pruneopts = "UT"
-  revision = "e9679ae0c41d01668d01738dc8e67d3f546e0a15"
+  revision = "5e0c5a9d62c43725adfbf06357d432fa9f17c742"
 
 [[projects]]
   digest = "1:d5e752c67b445baa5b6cb6f8aa706775c2aa8e41aca95a0c651520ff2c80361a"
@@ -65,7 +65,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:8b7a2ca67be48dc7e45adedba86d925a16c7ef974213a552d2e1f703c812585a"
+  digest = "1:945d90386c2b93c7fc92c68de0e7c77a236227772a3ff2b2b64f79644f9a2cba"
   name = "github.com/davidkhala/fabric-common-chaincode-golang"
   packages = [
     ".",
@@ -73,18 +73,18 @@
     "ext",
   ]
   pruneopts = "UT"
-  revision = "5d2771995d47ad4e712d1d4f3908495778d57357"
+  revision = "436a4fa0dd6b5235e0ee35e1c1c694a24a87b859"
 
 [[projects]]
   branch = "master"
-  digest = "1:7906100ba587ea4e5edc0f379fcc7682ec3e1eb138f5ec5c5ef771bd812a9b34"
+  digest = "1:17b9539b997e4d234b34835843b4741ba57f6c4ecf51f36b7ccd6c3838b4d158"
   name = "github.com/davidkhala/goutils"
   packages = [
     ".",
     "crypto",
   ]
   pruneopts = "UT"
-  revision = "28480c306db0b24cc6b71d6e8901c92190f5470b"
+  revision = "d96c05a7be95f109e47ef6ea0553e41bdfb4174a"
 
 [[projects]]
   digest = "1:49a2a779b1af8f02547b5a505eb1382f9d42299ec7215f34a32535e6af9a1c9e"
@@ -176,7 +176,7 @@
 
 [[projects]]
   branch = "release-1.4"
-  digest = "1:3732d99d5381a2b818dd5d805d02ab621f587ee0c27f000776382165ced7d4e7"
+  digest = "1:602086e0bc69e389d2b89f26ce8548e72997544f94277cbe74cb729370c5bd62"
   name = "github.com/hyperledger/fabric"
   packages = [
     "bccsp",
@@ -221,7 +221,7 @@
     "protos/utils",
   ]
   pruneopts = "UT"
-  revision = "fcfd12e5f361f75e9c13761df67c32cfd08c49d4"
+  revision = "bc2d289d67002f2bcccc84a277e92c693afe6a72"
 
 [[projects]]
   branch = "master"
@@ -429,11 +429,11 @@
     "trace",
   ]
   pruneopts = "UT"
-  revision = "1a5e07d1ff72da30f660d3c95b312a20be31173c"
+  revision = "aa69164e4478b84860dc6769c710c699c67058a3"
 
 [[projects]]
   branch = "master"
-  digest = "1:bc63533a3e3dfb2e7b8b4b73581509ee32907f5c996a42b34f7de14a37a87a1c"
+  digest = "1:44c4b10c728ca4f0aee2f2e1478427b479145303336dd3c9411657982109d51a"
   name = "golang.org/x/sys"
   packages = [
     "cpu",
@@ -441,7 +441,7 @@
     "windows",
   ]
   pruneopts = "UT"
-  revision = "0a153f010e6963173baba2306531d173aa843137"
+  revision = "98129a5cf4a0207f7e2202f458737deeaca0514a"
 
 [[projects]]
   digest = "1:8d8faad6b12a3a4c819a3f9618cb6ee1fa1cfc33253abeeea8b55336721e3405"
