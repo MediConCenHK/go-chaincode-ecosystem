@@ -1,0 +1,8 @@
+language: go
+go:
+  - "1.11"
+install:
+  - export GO111MODULE=on
+  - go mod vendor
+script:
+  - go test

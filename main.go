@@ -4,10 +4,8 @@ import (
 	. "github.com/MediConCenHK/go-chaincode-common"
 	. "github.com/davidkhala/fabric-common-chaincode-golang"
 	. "github.com/davidkhala/fabric-common-chaincode-golang/cid"
-	"github.com/davidkhala/fabric-common-chaincode-golang/ext"
 	. "github.com/davidkhala/goutils"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
-	"github.com/hyperledger/fabric/protos/msp"
 	"github.com/hyperledger/fabric/protos/peer"
 )
 
@@ -72,11 +70,6 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 		tokenData.Manager = MspID
 		tokenData.IssuerClient = clientID
 		t.putToken(clientID, tokenID, tokenData)
-		var keyPolicy = ext.NewKeyEndorsementPolicy(nil)
-
-		keyPolicy.AddOrgs(msp.MSPRole_MEMBER, MspID)
-
-		t.SetStateValidationParameter(tokenID, keyPolicy.Policy())
 
 	case FcnGetToken:
 		var tokenDataPtr = t.getToken(tokenID)
@@ -127,10 +120,6 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 		tokenData.OwnerType = OwnerTypeNetwork
 		tokenData.TransferDate = time.FromTimeStamp(t.GetTxTimestamp())
 		t.putToken(clientID, tokenID, tokenData)
-		var keyPolicyBytes = t.GetStateValidationParameter(tokenID)
-		var keyPolicy = ext.NewKeyEndorsementPolicy(keyPolicyBytes)
-		keyPolicy.AddOrgs(msp.MSPRole_MEMBER, MspID)
-		t.SetStateValidationParameter(tokenID, keyPolicy.Policy())
 	default:
 		panicEcosystem("unknown", "unknown fcn:"+fcn)
 	}
