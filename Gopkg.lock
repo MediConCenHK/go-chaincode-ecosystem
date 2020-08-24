@@ -21,14 +21,6 @@
   version = "v0.3.1"
 
 [[projects]]
-  digest = "1:5d3e23515e7916c152cc665eda0f7eaf6fdf8fdfe7c3dbac97049bcbd649b33f"
-  name = "github.com/Knetic/govaluate"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "d216395917cc49052c7c7094cf57f09657ca08a8"
-  version = "v3.0.0"
-
-[[projects]]
   branch = "master"
   digest = "1:6d43e27af867756429dadcd308852404804940b6c8ebee9bbb61ee9d5189ea31"
   name = "github.com/MediConCenHK/go-chaincode-common"
@@ -65,12 +57,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:945d90386c2b93c7fc92c68de0e7c77a236227772a3ff2b2b64f79644f9a2cba"
+  digest = "1:8315071f8655906cac8d612244e5757d255031418331d058fa9bd53699e5ef31"
   name = "github.com/davidkhala/fabric-common-chaincode-golang"
   packages = [
     ".",
     "cid",
-    "ext",
   ]
   pruneopts = "UT"
   revision = "436a4fa0dd6b5235e0ee35e1c1c694a24a87b859"
@@ -176,7 +167,7 @@
 
 [[projects]]
   branch = "release-1.4"
-  digest = "1:602086e0bc69e389d2b89f26ce8548e72997544f94277cbe74cb729370c5bd62"
+  digest = "1:2c034eea5d2ef1aaf7cded1f14e76c3131002753f5243e97547a458dd48ed2c7"
   name = "github.com/hyperledger/fabric"
   packages = [
     "bccsp",
@@ -189,23 +180,17 @@
     "bccsp/sw",
     "bccsp/utils",
     "common/attrmgr",
-    "common/cauthdsl",
     "common/crypto",
     "common/flogging",
     "common/flogging/fabenc",
     "common/ledger",
     "common/metadata",
     "common/metrics",
-    "common/policies",
     "common/semaphore",
     "common/util",
     "core/chaincode/platforms",
     "core/chaincode/platforms/ccmetadata",
     "core/chaincode/shim",
-    "core/chaincode/shim/ext/attrmgr",
-    "core/chaincode/shim/ext/cid",
-    "core/chaincode/shim/ext/entities",
-    "core/chaincode/shim/ext/statebased",
     "core/comm",
     "core/config",
     "core/container/util",
@@ -526,11 +511,9 @@
     "github.com/MediConCenHK/go-chaincode-common",
     "github.com/davidkhala/fabric-common-chaincode-golang",
     "github.com/davidkhala/fabric-common-chaincode-golang/cid",
-    "github.com/davidkhala/fabric-common-chaincode-golang/ext",
     "github.com/davidkhala/goutils",
     "github.com/davidkhala/goutils/crypto",
     "github.com/hyperledger/fabric/core/chaincode/shim",
-    "github.com/hyperledger/fabric/protos/msp",
     "github.com/hyperledger/fabric/protos/peer",
   ]
   solver-name = "gps-cdcl"
