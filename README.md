@@ -1,6 +1,8 @@
 # go-chaincode-ecosystem
 
 [![Build Status](https://travis-ci.com/MediConCenHK/go-chaincode-ecosystem.svg?branch=master)](https://travis-ci.com/MediConCenHK/go-chaincode-ecosystem)
+## Prerequisite
+- go 1.11 only
 ## Install
 - go mod vendor
 
