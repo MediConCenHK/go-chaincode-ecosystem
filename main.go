@@ -5,18 +5,22 @@ import (
 	. "github.com/davidkhala/fabric-common-chaincode-golang"
 	. "github.com/davidkhala/fabric-common-chaincode-golang/cid"
 	. "github.com/davidkhala/goutils"
-	"github.com/hyperledger/fabric/core/chaincode/shim"
-	"github.com/hyperledger/fabric/protos/peer"
+	Logger "github.com/davidkhala/goutils/logger"
+	"github.com/hyperledger/fabric-chaincode-go/shim"
+	"github.com/hyperledger/fabric-protos-go/peer"
+	"go.uber.org/zap"
 )
 
 type GlobalChaincode struct {
 	CommonChaincode
 }
 
+var logger = Logger.Zap()
+
 func (t GlobalChaincode) Init(stub shim.ChaincodeStubInterface) (response peer.Response) {
 	defer Deferred(DeferHandlerPeerResponse, &response)
 	t.Prepare(stub)
-	t.Logger.Info("Init")
+	logger.Info("Init")
 	return shim.Success(nil)
 }
 func (t GlobalChaincode) putToken(cid ClientIdentity, tokenID string, tokenData TokenData) {
@@ -42,8 +46,8 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 	t.Prepare(stub)
 
 	var fcn, params = stub.GetFunctionAndParameters()
-	t.Logger.Info("Invoke:fcn", fcn)
-	t.Logger.Debug("Invoke:params", params)
+	logger.Info("Invoke", zap.String("fcn", fcn))
+	logger.Debug("Invoke", zap.Strings("params", params))
 	var clientID = NewClientIdentity(stub)
 	var MspID = clientID.MspID
 	var responseBytes []byte
@@ -123,12 +127,11 @@ func (t GlobalChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer
 	default:
 		panicEcosystem("unknown", "unknown fcn:"+fcn)
 	}
-	t.Logger.Debug("response", string(responseBytes))
+	logger.Debug(string(responseBytes))
 	return shim.Success(responseBytes)
 }
 
 func main() {
 	var cc = GlobalChaincode{}
-	cc.SetLogger(GlobalCCID)
 	ChaincodeStart(cc)
 }
